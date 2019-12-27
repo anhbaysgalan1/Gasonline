@@ -1,0 +1,293 @@
+{
+  "1": {
+    "name": "Giảm giá theo số lượng"
+  },
+  "namDrWin": {
+    "name": "Bộ trị nám Dr.Win",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 1,
+          "price": 5520,
+          "percent": 20,
+          "level": 1
+        },
+        {
+          "value": 3,
+          "price": 5175,
+          "percent": 20,
+          "level": 1
+        },
+        {
+          "value": 5,
+          "price": 4830,
+          "percent": 20,
+          "level": 1
+        },
+        {
+          "value": 8,
+          "price": 4485,
+          "percent": 20,
+          "level": 1
+        }
+    ]
+
+  },
+  "seoDrWin": {
+    "name": "Bộ trị sẹo Dr.Win",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 1,
+          "price": 5000,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 3,
+          "price": 4500,
+          "percent": 0,
+          "level": 1
+        }
+    ]
+
+  },
+  "treHoaDrWin": {
+    "name": "Bộ trẻ hóa Dr.Win",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 1,
+          "price": 8000,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 3,
+          "price": 7000,
+          "percent": 0,
+          "level": 1
+        }
+    ]
+
+  },
+  "munKTH": {
+    "name": "Bộ trị mụn KTH",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 1,
+          "price": 8000,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 3,
+          "price": 7000,
+          "percent": 12.5,
+          "level": 1
+        }
+      ]
+  },
+  "15dayGM": {
+    "name": "15 day GM",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 5,
+          "price": 470,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 10,
+          "price": 430,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 20,
+          "price": 400,
+          "percent": 0,
+          "level": 2
+        },
+        {
+          "value": 50,
+          "price": 380,
+          "percent": 0,
+          "level": 3
+        },
+        {
+          "value": 100,
+          "price": 350,
+          "percent": 0,
+          "level": 3
+        },
+        {
+          "value": 200,
+          "price": 320,
+          "percent": 0,
+          "level": 4
+        },
+        {
+          "value": 500,
+          "price": 290,
+          "percent": 0,
+          "level": 5
+        },
+        {
+          "value": 1000,
+          "price": 260,
+          "percent": 0,
+          "level": 5
+        }
+      ]
+  },
+  "masterFay": {
+    "name": "Combo MasterFay",
+    "groupId": 1,
+    "discountType": "quantity",
+    "discountChange": "price",
+    "discountLevel": [
+        {
+          "value": 5,
+          "price": 1344,
+          "percent": 0,
+          "level": 1
+        },
+        {
+          "value": 10,
+          "price": 1260,
+          "percent": 0,
+          "level": 2
+        },
+        {
+          "value": 20,
+          "price": 1176,
+          "percent": 0,
+          "level": 3
+        },
+        {
+          "value": 40,
+          "price": 1092,
+          "percent": 0,
+          "level": 3
+        },
+        {
+          "value": 60,
+          "price": 1008,
+          "percent": 0,
+          "level": 4
+        },
+        {
+          "value": 100,
+          "price": 924,
+          "percent": 0,
+          "level": 4
+        },
+        {
+          "value": 200,
+          "price": 840,
+          "percent": 0,
+          "level": 5
+        },
+        {
+          "value": 300,
+          "price": 756,
+          "percent": 0,
+          "level": 5
+        }
+      ]
+  },
+  "chamSocDa": {
+    "name": "Sản phẩm chăm sóc da",
+    "groupId": "chamSocDa",
+    "discountType": "amount",
+    "discountChange": "percent",
+    "discountLevel": [
+      {
+        "value": 5000,
+        "percent": 20,
+        "level": 1
+      },
+      {
+        "value": 10000,
+        "percent": 30,
+        "level": 2
+      },
+      {
+        "value": 20000,
+        "percent": 35,
+        "level": 3
+      },
+      {
+        "value": 30000,
+        "percent": 40,
+        "level": 4
+      },
+      {
+        "value": 50000,
+        "percent": 45,
+        "level": 5
+      }
+    ]
+  },
+  "dieuTri": {
+    "name": "Bộ điều trị",
+    "groupId": "dieuTri",
+    "discountType": "amount",
+    "discountChange": "percent",
+    "discountLevel": [
+      {
+        "value": 5000,
+        "percent": 10,
+        "level": 1
+      },
+      {
+        "value": 10000,
+        "percent": 15,
+        "level": 2
+      },
+      {
+        "value": 20000,
+        "percent": 20,
+        "level": 3
+      },
+      {
+        "value": 30000,
+        "percent": 25,
+        "level": 3
+      },
+      {
+        "value": 40000,
+        "percent": 30,
+        "level": 4
+      },
+      {
+        "value": 80000,
+        "percent": 35,
+        "level": 4
+      },
+      {
+        "value": 100000,
+        "percent": 40,
+        "level": 5
+      },
+      {
+        "value": 150000,
+        "percent": 45,
+        "level": 5
+      }
+    ]
+  }
+}

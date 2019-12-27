@@ -1,0 +1,245 @@
+<style>
+    #header-main-pro-mqn {
+        clear: both;
+        overflow: hidden;
+        width: 1500px;
+        height: auto;
+        margin: 0 auto;
+        page-break-after: always;
+    }
+    .headerInfo{
+      position: relative;
+      width: 100%;
+      height: 100px;
+    }
+    .item-title-company {
+      width: 610px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+
+    .item-title-bill {
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      text-align: center;
+    }
+
+    .item-date-bill {
+      position: absolute;
+      top: 50px;
+      z-index: 99999;
+      text-align: right;
+      width: 100%;
+      right: 20px;
+    }
+    .item-page-no{
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+
+    .bill-left {
+        float: left;
+        width: 740px;
+        margin-right: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    .stt {
+        width: 30px;
+    }
+
+    .table-stt {
+        float: left;
+    }
+
+    .table-stt {
+        width: 38px;
+        margin-right: 2px;
+
+    }
+
+    .table-stt tr td {
+        padding: 0px 0px;
+    }
+
+    .table-total-pro-mqn {
+        margin-top: 30px;
+        float: right;
+        margin-right: 10px;
+    }
+
+    .table-total-pro-mqn table tr td{
+        padding: 10px 10px;
+    }
+
+    .right{
+        margin-left: 47px;
+    }
+    .diagonalLine{
+        border-bottom: 1px solid black;
+        -webkit-transform: rotate(2.3deg);
+    }
+</style>
+
+    <div id="header-main-pro-mqn">
+        <div class="title-main-top-mqn">
+            <div class="headerInfo">
+              <div class="item-title-company">
+                  <h5>株式会社SKE</h3>
+              </div>
+              <div class="item-title-bill">
+                  <h2>配達日報一覧</h2>
+              </div>
+              <div class="item-date-bill">
+                  <h5><%=date.year%>年<%=date.month%>月<%=date.day%>日 <span class="right"><%=date.dayInWeek%>曜日</span></h5>
+              </div>
+              <div class="item-page-no">No. <%=page%></div>
+            </div>
+        </div>
+        <div class="info-pro-bill">
+            <div class="bill-left">
+                <table class="table-stt">
+                    <tr>
+                        <th style="height: 64px;"></th>
+                    </tr>
+                    <% for(let i = 1; i <= rowPerPage; i ++){ %>
+                    <tr>
+                        <td><%=i%></td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <td>合計</td>
+                    </tr>
+                </table>
+                <table width="94%">
+                    <tr>
+                        <th colspan="10" style="padding: 7px;">顧客</th>
+                    </tr>
+                    <tr>
+                        <th>顧客</br>コード</th>
+                        <th>顧客名</th>
+                        <th>エリア</br>コード</th>
+                        <th>配達エリア</th>
+                        <th>ドライバー名</th>
+                        <th>軽油</th>
+                        <th>免税軽油</th>
+                        <th>灯油</th>
+                        <th>レギュラー</th>
+                        <th>アドブルー</th>
+                    </tr>
+                    <% for(let i = 0; i < rowPerPage; i ++){
+                      let {customerInfo = {}, quantity = {}, areaInfo = {}, driverInfo ={}} = table1[i] || {};
+                    %>
+                    <tr>
+                        <td><%= customerInfo.code %>&nbsp;</td>
+                        <td><%= customerInfo.name %></td>
+                        <td><%= areaInfo.code %></td>
+                        <td><%= areaInfo.name %></td>
+                        <td><%= driverInfo.fullName %></td>
+                        <td><%= quantity.diesel %></td>
+                        <td><%= quantity.dieselFeeTax %></td>
+                        <td><%= quantity.kerosene %></td>
+                        <td><%= quantity.gasonline %></td>
+                        <td><%= quantity.adBlue %></td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <th colspan="5">
+
+                          <div class="diagonalLine"></div>
+                        </th>
+                        <th><%= totalTable1.diesel || 0 %></th>
+                        <th><%= totalTable1.dieselFeeTax || 0 %></th>
+                        <th><%= totalTable1.kerosene || 0 %></th>
+                        <th><%= totalTable1.gasonline || 0 %></th>
+                        <th><%= totalTable1.adBlue || 0 %></th>
+                    </tr>
+                </table>
+            </div>
+            <div class="bill-left">
+                <table width="100%">
+                    <tr>
+                        <th colspan="10" style="padding: 7px;">顧客</th>
+                    </tr>
+                    <tr>
+                        <th>顧客</br>コード</th>
+                        <th>顧客名</th>
+                        <th>エリア</br>コード</th>
+                        <th>配達エリア</th>
+                        <th>ドライバー名</th>
+                        <th>軽油</th>
+                        <th>免税軽油</th>
+                        <th>灯油</th>
+                        <th>レギュラー</th>
+                        <th>アドブルー</th>
+                    </tr>
+                    <% for(let i = 0; i < rowPerPage; i ++){
+                      let {customerInfo = {}, quantity = {}, areaInfo = {}, driverInfo ={}} = table2[i] || {};
+                    %>
+                    <tr>
+                        <td><%= customerInfo.code %>&nbsp;</td>
+                        <td><%= customerInfo.name %></td>
+                        <td><%= areaInfo.code %></td>
+                        <td><%= areaInfo.name %></td>
+                        <td><%= driverInfo.fullName %></td>
+                        <td><%= quantity.diesel %></td>
+                        <td><%= quantity.dieselFeeTax %></td>
+                        <td><%= quantity.kerosene %></td>
+                        <td><%= quantity.gasonline %></td>
+                        <td><%= quantity.adBlue %></td>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <th colspan="5">
+                          <div class="diagonalLine"></div>
+                        </th>
+                        <th><%= totalTable2.diesel || 0 %></th>
+                        <th><%= totalTable2.dieselFeeTax || 0 %></th>
+                        <th><%= totalTable2.kerosene || 0 %></th>
+                        <th><%= totalTable2.gasonline || 0 %></th>
+                        <th><%= totalTable2.adBlue || 0 %></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="table-total-pro-mqn">
+            <table>
+                <tr>
+                    <th rowspan="2">総合計</th>
+                    <th>軽油</th>
+                    <th>免税軽油</th>
+                    <th>灯油</th>
+                    <th>レギュラー</th>
+                    <th>アドブルー</th>
+                </tr>
+                <tr>
+                    <td><%= (totalTable1.diesel + totalTable2.diesel)  || 0 %></td>
+                    <td><%= (totalTable1.dieselFeeTax + totalTable2.dieselFeeTax)  || 0 %></td>
+                    <td><%= (totalTable1.kerosene + totalTable2.kerosene) || 0 %></td>
+                    <td><%= (totalTable1.gasoline + totalTable2.gasoline) || 0 %></td>
+                    <td><%= (totalTable1.adBlue + totalTable2.adBlue) || 0 %></td>
+                </tr>
+            </table>
+        </div>
+    </div>

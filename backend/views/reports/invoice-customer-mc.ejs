@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>請求書</title>
+</head>
+<style>
+  #header-main-pro-mqn {
+    clear: both;
+    overflow: hidden;
+    width: 1024px;
+    height: auto;
+    margin: 0 auto;
+    page-break-after: always;
+  }
+
+  .title {
+    border-bottom: 2px solid black;
+    width: 425px;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 50px;
+  }
+
+  .title h1 {
+    text-align: center;
+    letter-spacing: 50px;
+    position: relative;
+    font-weight: bold;
+    font-size: 42px;
+    padding: 0px;
+    margin: 0px;
+    left: 35px;
+  }
+
+  .date-bill {
+    float: right;
+    margin-right: 30px;
+    width: 100%;
+    margin-top: -30px;
+    text-align: right;
+    ;
+  }
+
+  .item-title-pro h5 {
+    font-size: 21px;
+    line-height: 32px;
+    border-bottom: 2px solid black;
+    width: 390px;
+    text-align: center;
+    position: relative;
+    font-weight: bold;
+    top: 20px;
+  }
+
+  .item-title-pro {
+    float: left;
+    width: 50%;
+  }
+
+  .item-title-pro .subName{
+    text-align: right;
+    padding-right: 30px;
+    padding-top: 20px;
+  }
+
+  .item-pro-mqn {
+    float: left;
+    margin-top: 10px;
+  }
+
+  .item-logo {
+    float: left;
+    margin-right: 30px;
+    margin-top: 20px;
+    position: relative;
+    left: 15px;
+
+  }
+
+  .item-logo img {
+    width: 60px;
+  }
+
+  .info-address-main-mqn h5 {
+    margin-bottom: 0px;
+    line-height: 0px;
+  }
+
+
+  .info-address-main-mqn {
+    margin-top: 0px;
+    position: relative;
+  }
+
+  .item-info-company-pro-mqn-main {
+    float: right;
+    width: 35%;
+    margin-bottom: 50px;
+  }
+
+  .bill-info-priceơ {
+    position: absolute;
+    clear: both;
+    bottom: 0;
+  }
+
+  .top-table-pro-mqn {
+    width: 740px;
+    position: relative;
+    float: left;
+    margin-top: -45px;
+    margin-left: 100px;
+    border-bottom-style: double;
+    margin-bottom: 20px;
+  }
+
+  .top-table-pro-mqn h5 {
+    float: left;
+    margin-bottom: 0px;
+    font-size: 21px;
+  }
+
+  table {
+    border-collapse: collapse;
+    empty-cells: show;
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  th {
+    font-size: 12px;
+  }
+
+  .right {
+    float: right;
+    margin-right: 20px;
+  }
+
+  .bill-info-price h5 {
+    margin-bottom: -92px;
+    font-size: 21px;
+  }
+
+  .code-bil {
+    float: right;
+    margin-right: -120px;
+    position: relative;
+    top: 28px;
+  }
+
+  .code-bil h5 {
+    font-size: 21px;
+  }
+
+  .price-bill {
+    position: relative;
+    left: 300px;
+  }
+
+  .code-bill-mqn-pro-top {
+    float: right;
+    margin-right: -120px;
+  }
+
+  .info-pro-bill table {
+    border: 2px solid black !important;
+  }
+
+  .info-pro-bill table td {
+
+    border: 1px dashed black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    padding: 3px 0px 0px;
+  }
+
+  .right-pro {
+    position: relative;
+    right: -10px;
+  }
+
+  .border-line {
+    border-top-style: solid;
+    text-align: center !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+  }
+
+  .border-double {
+    border-top-style: double;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+  }
+
+  .info-pro-bill table {
+    width: 100%;
+  }
+</style>
+
+<body>
+  <div id="header-main-pro-mqn">
+    <div class="title-bill-main-top-mqn">
+      <div class="title">
+        <h1>請求書</h1>
+      </div>
+      <div class="date-bill">
+        <h5><%=date.year%>年<%=date.month%>月<%=date.day%>日</h5>
+      </div>
+    </div>
+    <div class="title-info-company-bill-mqn">
+      <div class="item-title-pro">
+        <h5><%=customer.name%><span class="right">御中</span></h5>
+        <div class="subName"><%=customer.subName%></div>
+
+      </div>
+      <div class="item-info-company-pro-mqn-main">
+        <div class="item-logo">
+          <img width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEE2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iCiAgICAgICAgICAgIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICAgICA8eG1wTU06RGVyaXZlZEZyb20gcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICA8c3RSZWY6aW5zdGFuY2VJRD54bXAuaWlkOjhDOTZFQ0Y3MTA4QjExRThBMkYwQ0NGQjNFQ0JDNURFPC9zdFJlZjppbnN0YW5jZUlEPgogICAgICAgICAgICA8c3RSZWY6ZG9jdW1lbnRJRD54bXAuZGlkOjhDOTZFQ0Y4MTA4QjExRThBMkYwQ0NGQjNFQ0JDNURFPC9zdFJlZjpkb2N1bWVudElEPgogICAgICAgICA8L3htcE1NOkRlcml2ZWRGcm9tPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD54bXAuZGlkOjhDOTZF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" alt="">
+          <h5>振込先</h5>
+        </div>
+        <div class="info-address-main-mqn">
+          <h5>株式会社SKE</h5>
+          <h5>愛知県みよし市明知町割目池1-99</h5>
+          <h5>TEL 0561-33-1833</h5>
+          <h5>FAX 0561-33-1834</h5>
+          <div class="item-pro-mqn">
+            <h5>岡崎信用金庫</h5>
+            <h5>普通</h5>
+          </div>
+          <div class="item-pro-mqn">
+            <h5 class="right-pro">三好支店</h5>
+            <h5 class="right-pro">9001465</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="top-table-pro-mqn">
+      <h5><span class="text-table-bill-left">御請求金額</span> <span class="price-bill">¥ <%=total || 0%></span></h5>
+      <div class="code-bill-mqn-pro-top">
+        <h5 class="">NO . <%=Number(page)+1%></h5>
+      </div>
+    </div>
+    <div class="info-pro-bill">
+      <table>
+        <tr>
+          <th>月</th>
+          <th>日</th>
+          <th>品名</th>
+          <th>数量</th>
+          <th>単価</th>
+          <th>金額</th>
+          <th>配達場所</th>
+          <th>保証</th>
+        </tr>
+        <% for(let row of data){ %>
+        <tr class="<%=row.style%>">
+          <td><%=row['0'] %></td>
+          <td><%=row['1'] %></td>
+          <td><%=row['2'] %></td>
+          <td class="colQuantity"><%=row['3'] %></td>
+          <td><%=row['4'] %></td>
+          <td><%=row['5'] %>&nbsp;</td>
+          <td><%=row['6'] %></td>
+          <td></td>
+        </tr>
+        <% } %>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

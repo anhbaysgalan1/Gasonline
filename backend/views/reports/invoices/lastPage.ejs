@@ -1,0 +1,52 @@
+<tr class="border-doule">
+  <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>数量</td>
+  <td>金額</td>
+  <td>消費税</td>
+  <td><%=(overAll["diesel"] ? "軽油税": "") %></td>
+  <td></td>
+</tr>
+<%
+let totalAmount = 0, totalAmountTax = 0; totalAmountDieselTax = 0;
+for(let material in overAll){
+  let info = overAll[material]
+  totalAmount += info.amount;
+  totalAmountTax += info.amountTax;
+  totalAmountDieselTax += info.amountDieselTax;
+%>
+<tr>
+  <td></td>
+  <td></td>
+  <td><%=info.name %></td>
+  <td><%=info.quantity %></td>
+  <td><%=info.amount %></td>
+  <td><%=info.amountTax %></td>
+  <td><%=info.amountDieselTax %></td>
+  <td></td>
+</tr>
+<% } %>
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>合計</td>
+  <td><%=totalAmount %></td>
+  <td><%=totalAmountTax %></td>
+  <td><%=totalAmountDieselTax %></td>
+  <td></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td><%=totalAmount + totalAmountTax + totalAmountDieselTax %></td>
+  <td></td>
+</tr>

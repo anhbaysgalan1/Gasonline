@@ -1,0 +1,130 @@
+{
+  "ok": "OK",
+  "unauthorized": "UnauthorizedError: invalid token",
+  "unprocessable": "Unprocessable entity",
+  "Bad_Request": "Bad request",
+  "Disable_Api": "API was already disabled",
+  "Forbidden": "Forbidden",
+  "Not_Found": "見つかりません",
+  "Not_Implement": "Function has not implemented yet",
+  "Internal_Server_Error": "Internal server error",
+  "Errors": {
+    "general": "エラーが発生しましたので、もう一度お試しください。",
+    "create": "データを追加するうちにエラーが発生しました%0",
+    "update": "データを更新するうちにエラーが発生しました%0",
+    "delete": "データを削除するうちにエラーが発生しました%0",
+    "login": "メールまたはパスワードが間違っています。",
+    "register": "%0アカウントを追加できません",
+    "Permission_Denied": "あなたはこの操作を行う権限を持っていません",
+    "Cannot_Change_Order_Status": "データ更新で受注の状態を変更できません",
+    "Cannot_Delete": "あなたはこのデータを削除する権限を持っていません",
+    "Change_Password": "パスワードを変更するうちにエラーが発生しました %0",
+    "Email_Invalid": "メールアドレスは不正です (%0)",
+    "Load_Detail_Failed": "詳細データを取得するうちにエラーが発生しました %0",
+    "Load_Lists_Failed": "データを取得するうちにエラーが発生しました %0",
+    "New_Old_Pw_Must_Different": "新しパスワードは現在のパスワードと異なる必要があります",
+    "Incorrect_Password": "パスワードが間違っています。パスワードを忘れた場合は、管理者に連絡してください。",
+    "Export_Fuels": "エラーが発生しました %0",
+    "Import_Fuels": "エラーが発生しました %0",
+    "Not_Enough_Fuels": "%0の残量が足りないので、配達できません。",
+    "Old_Pw_Not_Match": "現在のパスワードが正しくありません",
+    "Pw_Len_Warning": "パスワードには %0文字~ %1文字に入力してください ",
+    "Pw_Not_Match": "パスワードが一致しません。再入力してください !",
+    "settings": {
+      "update": "設定するうちにエラーが発生しました %0",
+      "updatePrice": "原価を更新するうちにエラーが発生しました %0"
+    },
+    "accounts": {
+      "Not_Activated": "アカウントは有効化されていません。 有効化コードを取得するには、メールアドレスを入力してください。",
+      "Activation_Expired": "有効化コードの有効期限が切れました。",
+      "Activation_Invalid": "有効化コードは不正です。"
+    }
+  },
+  "Found_Errors": {
+    "general": "%0で絞り込むことができません。エラーが発生しました。%0",
+    "area": "エリアコードで絞り込むことができません。エラーが発生しました。%0",
+    "customer": "顧客で絞り込むことができません。エラーが発生しました。%0",
+    "order": "受注で絞り込むことができません。エラーが発生しました。%0",
+    "user": "ユーザーで絞り込むことができません。エラーが発生しました。%0",
+    "vehicle": "配達車で絞り込むことができません。エラーが発生しました。%0"
+  },
+  "Load_Lists_Errors": {
+    "delivery": "%0配達一覧が表示できません。",
+    "history": "%0履歴が表示できません。",
+    "Delivery_Others": " %0その他の配達一覧が表示できません。"
+  },
+  "Success": {
+    "general": "成功!",
+    "create": "データが追加されました。",
+    "update": "データが更新されました。",
+    "delete": "データが削除されました。",
+    "login": "ログインしました。",
+    "register": "アカウントが登録されました。",
+    "Change_Password": "パスワードが変更されました。",
+    "Reset_Password": "パスワードが再発行されました。新しいパスワードでログインしてください。",
+    "settings": {
+      "update": "設定データが更新されました。",
+      "updatePrice": "単価が更新されました。"
+    },
+    "accounts": {
+      "delete": "%0アカウントが削除されました。",
+      "Send_Mail_Created": "%0アカウントが作成されました。アクセス情報は登録された%1メールアドレスへ送信しました。"
+    }
+  },
+  "Exists": {
+    "general": "%0が既に存在しています。",
+    "area": "%0のエリアが既に存在しています。",
+    "customer": "%0の顧客が既に存在しています。",
+    "order": "%0の受注が既に存在しています。",
+    "user": "%0のユーザーが既に存在しています。",
+    "vehicle": "%0の配達車が既に存在しています。"
+  },
+  "Not_Founds": {
+    "general": "%0が存在しません。",
+    "Request_Object": "Invalid request. Object is required.",
+    "Vehicle_Of_Driver": "%0のドライバーの配達車が見つかりません"
+  },
+  "Not_Exists": {
+    "general": "%0が存在しません。",
+    "area": "%0のエリアが存在しません。",
+    "customer": "%0の顧客が存在しません。",
+    "history": "履歴がありません",
+    "order": "%0の受注が存在しません。",
+    "user": "%0のアカウントが存在しません。",
+    "vehicle": "%0のローリーが存在しません。"
+  },
+  "Required": {
+    "general": "この項目は必須項目です。"
+  },
+  "Unique": {
+    "area": {
+      "code": "%0のエリアコードが既存しています。"
+    },
+    "customer": {
+      "code": "%0の顧客コードが既存しています。"
+    },
+    "user": {
+      "code": "%0のユーザーコードが既存しています。",
+      "email": "%0のメールアドレスが既存しています。"
+    },
+    "vehicle": {
+      "licensePlate": "%0のカードナンバーが既存しています。"
+    }
+  },
+  "Products": {
+    "adBlue": "アドブルー",
+    "diesel": "軽油",
+    "kerosene": "灯油",
+    "gasoline": "レギュラー",
+    "dieselFreeTax": "免税軽油"
+  },
+  "DayInWeek": {
+    "monday": "月",
+    "tuesday": "火",
+    "wednesday": "水",
+    "thursday": "木",
+    "friday": "金",
+    "saturday": "土",
+    "sunday": "日"
+  }
+}

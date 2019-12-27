@@ -1,0 +1,79 @@
+{
+  "languages": [
+    "en",
+    "vi",
+    "ja"
+  ],
+  "defaultLanguage": "en",
+  "language": "en",
+  "roles": {
+    "root": "root",
+    "admin": "admin",
+    "driver": "driver"
+  },
+  "customerTypes": {
+    "direct": 1,
+    "mediate": 2
+  },
+  "middleMonth": 15,
+  "insurance": 100,
+  "taxes": {
+    "consumptionTax": 10,
+    "dieselTax": 10
+  },
+  "products": {
+    "diesel": {
+      "singlePrice": false,
+      "displayOnVehicle": true,
+      "taxes": [
+        "consumptionTax",
+        "dieselTax"
+      ]
+    },
+    "gasoline": {
+      "singlePrice": false,
+      "displayOnVehicle": true,
+      "taxes": [
+        "consumptionTax"
+      ]
+    },
+    "kerosene": {
+      "singlePrice": false,
+      "displayOnVehicle": true,
+      "taxes": [
+        "consumptionTax"
+      ]
+    },
+    "adBlue": {
+      "singlePrice": true,
+      "displayOnVehicle": false,
+      "taxes": [
+        "consumptionTax"
+      ]
+    }
+  },
+  "prices": {
+    "ske": {
+      "startMonth": {
+        "diesel": 100,
+        "gasoline": 100,
+        "kerosene": 100
+      },
+      "endMonth": {
+        "diesel": 100,
+        "gasoline": 100,
+        "kerosene": 100
+      }
+    },
+    "mcCenter": {
+      "diesel": {
+        "flagA": 220,
+        "flagB": 240,
+        "flagC": 250
+      },
+      "kerosene": 150,
+      "gasoline": 250
+    },
+    "adBlue": 100
+  }
+}

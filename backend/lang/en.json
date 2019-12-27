@@ -1,0 +1,130 @@
+{
+  "ok": "OK",
+  "unauthorized": "UnauthorizedError: invalid token",
+  "unprocessable": "Unprocessable entity",
+  "Bad_Request": "Bad request",
+  "Disable_Api": "API was already disabled",
+  "Forbidden": "Forbidden",
+  "Not_Found": "Not found",
+  "Not_Implement": "Function has not implemented yet",
+  "Internal_Server_Error": "Internal server error",
+  "Errors": {
+    "general": "An error occurred. Please try again",
+    "create": "Create failed: %0",
+    "update": "Update failed: %0",
+    "delete": "Delete failed: %0",
+    "login": "Email or password is incorrect",
+    "register": "Register failed: %0",
+    "Permission_Denied": "Permission denied",
+    "Cannot_Change_Order_Status": "You can not change order status by update order information",
+    "Cannot_Delete": "You have not permission for delete this",
+    "Change_Password": "Change password failed: %0",
+    "Email_Invalid": "Invalid email (%0)",
+    "Load_Detail_Failed": "Load detail failed: %0",
+    "Load_Lists_Failed": "Load lists failed: %0",
+    "New_Old_Pw_Must_Different": "New password must be different from old password",
+    "Incorrect_Password": "The password is incorrect. If you have forgotten your password, please contact your administrator for assistance.",
+    "Export_Fuels": "Exporting fuels from the truck failed: %0",
+    "Import_Fuels": "Importing fuel from the truck failed: %0",
+    "Not_Enough_Fuels": "Remaining fuel is not enough for delivery: %0",
+    "Old_Pw_Not_Match": "Old password does not match",
+    "Pw_Len_Warning": "Password length invalid",
+    "Pw_Not_Match": "Confirm password does not match. Please try again.",
+    "settings": {
+      "update": "Update settings failed: %0",
+      "updatePrice": "Update price settings failed: %0"
+    },
+    "accounts": {
+      "Not_Activated": "This account has not activated. Please enter your email to receive an activation code.",
+      "Activation_Expired": "Activation expired.",
+      "Activation_Invalid": "Activation code is invalid."
+    }
+  },
+  "Found_Errors": {
+    "general": "Find items failed: %0",
+    "area": "Find areas failed: %0",
+    "customer": "Find customers failed: %0",
+    "order": "Find orders failed: %0",
+    "user": "Find users failed: %0",
+    "vehicle": "Find vehicles failed: %0"
+  },
+  "Load_Lists_Errors": {
+    "delivery": "Load deliveries failed: %0",
+    "history": "Load histories failed: %0",
+    "Delivery_Others": "Load deliveries of other drivers failed: %0"
+  },
+  "Success": {
+    "general": "Successfully!",
+    "create": "Create successfully",
+    "update": "Update successfully",
+    "delete": "Delete successfully",
+    "login": "Login successfully",
+    "register": "Register successfully",
+    "Change_Password": "Change password successfully",
+    "Reset_Password": "Reset password successfully",
+    "settings": {
+      "update": "Update settings successfully",
+      "updatePrice": "Update price settings successfully"
+    },
+    "accounts": {
+      "delete": "Account %0 is deleted",
+      "Send_Mail_Created": "Account %0 is created. Login information have been sent to email address %1."
+    }
+  },
+  "Exists": {
+    "general": "Item %0 is already existed.",
+    "area": "Area %0 is already existed.",
+    "customer": "Customer %0 is already existed.",
+    "order": "Order %0 is already existed.",
+    "user": "User %0 is already existed.",
+    "vehicle": "Vehicle %0 is already existed."
+  },
+  "Not_Founds": {
+    "general": "Item %0 is not found or has been deleted.",
+    "Request_Object": "Invalid request. Object is required.",
+    "Vehicle_Of_Driver": "No vehicles found by driver: %0"
+  },
+  "Not_Exists": {
+    "general": "Item %0 does not exist or has been deleted.",
+    "area": "Area %0 does not exist.",
+    "customer": "Customer %0 does not exist.",
+    "history": "Import/export history does not exist.",
+    "order": "Order %0 does not exist.",
+    "user": "User %0 does not exist.",
+    "vehicle": "Vehicle %0 does not exist."
+  },
+  "Required": {
+    "general": "This field is required"
+  },
+  "Unique": {
+    "area": {
+      "code": "Area code %0 is already taken. Please enter another value."
+    },
+    "customer": {
+      "code": "Customer code %0 is already taken. Please enter another value."
+    },
+    "user": {
+      "code": "User code %0 is already taken. Please enter another value.",
+      "email": "Email %0 is already taken. Please enter another value."
+    },
+    "vehicle": {
+      "licensePlate": "License plate %0 has been registered."
+    }
+  },
+  "Products": {
+    "adBlue": "Ad Blue",
+    "diesel": "Diesel",
+    "kerosene": "Kerosene",
+    "gasoline": "Gasoline",
+    "dieselFreeTax": "Diesel Free Tax"
+  },
+  "DayInWeek": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  }
+}

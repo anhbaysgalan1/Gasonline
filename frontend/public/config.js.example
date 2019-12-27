@@ -1,0 +1,4 @@
+var config = {
+  LANG: "ja",
+  API_HOST: "http://gas-api.test.mqsolutions.vn"
+}
