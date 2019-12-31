@@ -4,6 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {Button, Chip, Grid, Icon, Typography} from "@material-ui/core";
 import {Form, TextField} from "components/Forms";
 import {BaseView} from "views/BaseView";
+import Map from './components/Map'
 import FuelsForm from "./components/FuelsForm";
 import PaperFade from "components/Main/PaperFade";
 import {deliveryTime} from "config/constant";
@@ -148,7 +149,7 @@ class Detail extends BaseView {
                   </Grid>
 
                   <Grid item xs={12} lg={12}>
-                    <div className={classes.mapWrapper}>{/* <Map/> */}</div>
+                    <div className={classes.mapWrapper}><Map/></div>
                   </Grid>
 
                   <Grid item xs={12} md={6}>

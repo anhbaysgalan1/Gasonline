@@ -307,7 +307,6 @@ class Index extends BaseView {
             onFetchData={onFetchData}
           />
         </Hidden>
-
         <Hidden xsDown>
           {this.dialogComplete()}
           {this.renderDetail()}

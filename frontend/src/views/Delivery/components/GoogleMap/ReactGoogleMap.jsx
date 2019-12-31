@@ -23,12 +23,8 @@ class GetMap extends BaseView {
 	
   render() {
 		let onSearchPlace = this.props.onSearchPlace || (() =>{})
-		let { getDeliveryAddress, deliveryAddress, onChangeAddress } = this.props
 		return (
 			<MapLayers 
-				onChangeAddress={onChangeAddress}
-				deliveryAddress={deliveryAddress}
-				getDeliveryAddress={getDeliveryAddress}
 				options={{ ...this.props }}
 				onSearchPlace={() => onSearchPlace()}
 			>

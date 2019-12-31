@@ -9,6 +9,7 @@ import {BaseView} from 'views/BaseView'
 import AreaField from './AreaField'
 import Map from './Map'
 import ReactGoogleMap from '../ReactGoogleMap/ReactGoogleMap'
+import IframeMap from '../ReactGoogleMap/IframeMap'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Utils from 'helpers/utility'
 import {
@@ -31,6 +32,11 @@ const styles = theme => ({
     position: "relative",
     height: "350px",
     width: "100%"
+  },
+  labelAddress: {
+    marginLeft: '15px',
+    marginBottom: '-15px',
+    fontSize: '12px'
   }
 });
 
@@ -38,7 +44,9 @@ class MainForm extends BaseView {
   constructor(props) {
     super(props);
     this.state = {
-      autocomplete: []
+      autocomplete: [],
+      deliveryAddress: '',
+      reload: false,
     }
     this.validate = {
       date: [
@@ -63,9 +71,17 @@ class MainForm extends BaseView {
     return result
   }
 
-  render() {
-    const {classes, areas, customers, order} = this.props;
+  onChangeAddress = (value) => {
+    this.setState({ deliveryAddress: value, reload: !this.state.reload})
+  }
 
+  getDeliveryAddress = (address) => {
+    this.setState({ deliveryAddress: address, reload: !this.state.reload})
+  }
+
+  render() {
+    const {classes, areas, customers, order} = this.props
+    let { deliveryAddress } = this.state
     return (
       <PaperFade className={classes.paper}>
         <Typography variant="h6">{I18n.t("Label.order.deliveryInfo")}</Typography>
@@ -82,30 +98,49 @@ class MainForm extends BaseView {
               {this.renderCustomer(customers)}
             </AutoCompleteField>
           </Grid>
-
-          <Grid item xs={12} lg={12}>
+          {/* <Grid item xs={12} lg={12}>
             <TextField
-              fullWidth
-              type="text"
+              type="hidden"
               label={I18n.t(`Input.order.deliveryAddress`)}
+              fullWidth
               name="deliveryAddress"
-              defaultValue={this.getData(order, "deliveryAddress", null)}
+              defaultValue={this.getData(order, "deliveryAddress", null) || deliveryAddress}
+              onChange={(value) => this.onChangeAddress(value)}
               validate={this.validate.required}
             />
-          </Grid>
-
-          <Grid item xs={12} lg={12}>
-            <ExpansionPanel>
+          </Grid> */}
+          {/* <Grid item xs={12} lg={12}>
+            <ExpansionPanel expanded={true} >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>GoogleMap</Typography>
+                <Typography className={classes.heading}>{I18n.t(`Input.order.deliveryAddress`)}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails> 
-                <div className={classes.mapWrapper}>
-                  <ReactGoogleMap onloadMap={(refMap) => this.handleLoadMap(refMap)}>
-                  </ReactGoogleMap>
-                </div>
+                  <ReactGoogleMap 
+                    onChangeAddress={this.onChangeAddress}
+                    deliveryAddress={deliveryAddress}
+                    getDeliveryAddress={this.getDeliveryAddress}
+                  />
               </ExpansionPanelDetails>
             </ExpansionPanel>
+          </Grid> */}
+          <TextField
+            type="hidden"
+            name="deliveryAddress"
+            defaultValue={this.getData(order, "deliveryAddress", null) || deliveryAddress}
+            onChange={(value) => this.onChangeAddress(value)}
+          />
+          {/* React Google Map -----------------------*/}
+          {
+            deliveryAddress 
+            ? <Typography color='default' className={classes.labelAddress}>{I18n.t(`Input.order.deliveryAddress`)}</Typography> 
+            : ''
+          }
+          <Grid item xs={12} lg={12}>
+            <ReactGoogleMap 
+              onChangeAddress={this.onChangeAddress}
+              deliveryAddress={deliveryAddress}
+              getDeliveryAddress={this.getDeliveryAddress}
+            />
           </Grid>
           <Grid item xs={12} lg={12}>
             <AreaField

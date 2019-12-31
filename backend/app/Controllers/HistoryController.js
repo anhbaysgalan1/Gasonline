@@ -79,8 +79,8 @@ class HistoryController extends BaseController {
     [err, vehicle] = await to(this.service.getVehicleForDriver(authUser));
     if (err) return HttpUtil.unprocessable(res, err);
 
-    params = {...params, driver: authUser._id, vehicle: vehicle._id};
     if (params.type === typePouring.import) {
+      params = {...params, driver: authUser._id, vehicle: vehicle._id};
       let remains = {}, oldRemain = vehicle.remain;
       params.details.map(item => {
         let {material, quantity} = item;
@@ -111,10 +111,16 @@ class HistoryController extends BaseController {
     [err, remainingFuels] = this.service.validateExportFuelDetails(vehicle, params.details);
     if (err) return HttpUtil.unprocessable(res, err);
 
-    params.details = params.details.map(item => this.service.formatExportDetail(item, order.customer));
-    params.customer = order.customer._id;
+    let obj = {
+      customer: order.customer._id,
+      details: params.details.map(item => this.service.formatExportDetail(item, order.customer)),
+      driver: authUser._id,
+      order: order._id,
+      vehicle: vehicle._id,
+      type: params.type
+    };
     [err, result] = await to(Promise.all([
-      this.model.insertOne(params, authUser),
+      this.model.insertOne(obj, authUser),
       this.service.updateRemainingFuelsForVehicle(vehicle, remainingFuels, authUser)
     ]));
     if (err) return HttpUtil.internalServerError(res, Utils.localizedText('Errors.Export_Fuels', err.message));

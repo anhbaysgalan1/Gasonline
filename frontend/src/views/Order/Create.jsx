@@ -17,7 +17,8 @@ const styles = theme => ({
   sizeIcon: {
     fontSize: '15px'
   }
-});
+})
+
 
 class Create extends BaseView {
   constructor(props) {
@@ -29,19 +30,13 @@ class Create extends BaseView {
     this.refCirle = {}
   }
 
-  handleLoadMap(refMap) {
-    this.refMap = refMap
-    this.props.handleLoadMap(refMap)
-  }
-
   back = () => {
     this.goto('/orders')
   }
-
   render() {
     const {classes, onSubmit, customers, areas} = this.props
     return (
-      <PaperFade>
+      <PaperFade style={{ height: '500px', width: '100%' }} >
         <Form className={classes.form} onSubmit={onSubmit}>
           <Grid container>
             <Grid item xs={12} lg={3}>

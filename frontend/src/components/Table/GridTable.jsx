@@ -40,7 +40,6 @@ const styles = theme => {
     tableStriped: {
       '& tbody tr:nth-of-type(odd)': {
         backgroundColor: '#f7f7f7'//fade(theme.palette.primary.main, 0.15),
-        // backgroundColor: fade(theme.palette.primary.main, 0.15),
       },
     },
     table: {

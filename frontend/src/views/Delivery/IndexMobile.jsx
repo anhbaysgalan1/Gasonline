@@ -26,6 +26,7 @@ import DateTimeField from 'components/Forms/DateTimeField';
 import PaperFade from 'components/Main/PaperFade';
 import BaseView from 'views/BaseView';
 import {dateFormatBackend, dateFormatDefault} from 'config/constant';
+import ReactGooleMap from './components/GoogleMap/ReactGoogleMap'
 import Utils from 'helpers/utility';
 import {I18n} from 'helpers/I18n';
 import moment from 'moment';
@@ -36,6 +37,31 @@ const styles = theme => ({
   paper: {
     padding: '5px 5px',
     margin: 0
+  },
+  fontSizeMargin: {
+    fontSize: '12px', 
+    marginTop: '3px'
+  },
+  positionMap: {
+    [theme.breakpoints.down('xs')]: {
+      height: '250px', 
+      position: "fixed", 
+      bottom: '8px', 
+      left: "8px", 
+      right: '8px'
+    }
+  },
+  heightExpan: {
+    [theme.breakpoints.down('xs')]: {
+      minHeight: "35px", 
+      height: "20px",
+    },
+  },
+  scollExpanY: {
+    [theme.breakpoints.down('xs')]: {
+      overflowY : 'scroll',
+      height : '350px',
+    },
   },
   paddingTable: {
     padding: '0px 0px 0px 0px'
@@ -91,7 +117,8 @@ class Index extends BaseView {
         value={date}
         onChange={this.onChangeDate}
         InputProps={{readOnly: true}}
-        style={{marginTop: '10px'}}
+        // style={{ marginTop: '10px', position:"fixed", left: "8px",  zIndex: '1', backgroundColor: 'white'}}
+        style={{ marginTop: '5px' }}
       />
     )
   }
@@ -197,73 +224,77 @@ class Index extends BaseView {
       <PaperFade showLoading={true} className={classes.paper}>
         {this.dialogComplete()}
         {this.renderFilterDate()}
-        {orders.length ?
-          orders.map((item, index) => {
-            let _id = this.getData(item, '_id', '')
-            let orderDetails = this.getData(item, 'orderDetails', [])
-            let orderStatus = this.getData(item, 'status', '')
-            return (
-              <ExpansionPanel key={index}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                  <Grid container spacing={0}>
-                    <Grid item xs={10}>
-                      <Typography color='primary'>
-                        {index + 1}, {this.getData(item, 'code', '')}
-                      </Typography>
-                    </Grid>
-
-                    <Grid item xs={2}>
-                      {
-                        index == 2
-                          ? <IconButton size='small' key="finish">
-                            <Icon color='primary'>done</Icon>
-                          </IconButton>
-                          : <IconButton size='small' onClick={() => this.delivery(_id)} key="create">
-                            <Icon>add_circle_outline</Icon>
-                          </IconButton>
-                      }
-                    </Grid>
-                  </Grid>
-                </ExpansionPanelSummary>
-
-                <ExpansionPanelDetails>
-                  <Grid container direction="row" spacing={2}>
-                    <Grid item xs={12}>
-                      {this.renderOrderInfo(item, classes)}
-                      <br/>
-                      <Table className={classes.paddingTable}>
-                        <TableHead className={classes.paddingTable}>
-                          <TableRow>{this.renderDetailHead(classes)}</TableRow>
-                        </TableHead>
-                        <TableBody className={classes.paddingTable}>
+        <div className={classes.scollExpanY}> 
+          {
+            orders.length 
+            ? orders.map((item, index) => {
+                let _id = this.getData(item, '_id', '')
+                let orderDetails = this.getData(item, 'orderDetails', [])
+                let orderStatus = this.getData(item, 'status', '')
+                return (
+                  <ExpansionPanel key={index}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} className={classes.heightExpan}>
+                      <Grid container spacing={0}  direction='row' alignItems='center' justify='center' >
+                        <Grid item xs={10}>
+                          <Typography className={classes.fontSizeMargin} >
+                            {index + 1}, {this.getData(item, 'code', '')}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
                           {
-                            orderDetails.map((item, index) => {
-                              return (
-                                <TableRow key={index}>
-                                  {this.renderDetailFuels(item, classes)}
-                                </TableRow>
-                              )
-                            })
+                            index == 2
+                            ? <IconButton size='small' key="finish">
+                                <Icon color='primary'>done</Icon>
+                              </IconButton>
+                            : <IconButton size='small' onClick={() => this.delivery(_id)} key="create">
+                                <Icon>add_circle_outline</Icon>
+                              </IconButton>
                           }
-                        </TableBody>
-                      </Table>
-                      <div className={classes.positionRightBottom}>
-                        {
-                          index == 2
-                            ? ''
-                            : <IconButton key='complete' size='small' onClick={() => this.onShow()}>
-                              <Icon>offline_pin</Icon>
-                            </IconButton>
-                        }
-                      </div>
-                    </Grid>
-                  </Grid>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            )
-          })
-          : ''
-        }
+                        </Grid>
+                      </Grid>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <Grid container direction="row" spacing={2}>
+                        <Grid item xs={12}>
+                          {this.renderOrderInfo(item, classes)}
+                          <br/>
+                          <Table className={classes.paddingTable}>
+                            <TableHead className={classes.paddingTable}>
+                              <TableRow>{this.renderDetailHead(classes)}</TableRow>
+                            </TableHead>
+                            <TableBody className={classes.paddingTable}>
+                              {
+                                orderDetails.map((item, index) => {
+                                  return (
+                                    <TableRow key={index}>
+                                      {this.renderDetailFuels(item, classes)}
+                                    </TableRow>
+                                  )
+                                })
+                              }
+                            </TableBody>
+                          </Table>
+                          <div className={classes.positionRightBottom}>
+                            {
+                              index == 2
+                                ? ''
+                                : <IconButton key='complete' size='small' onClick={() => this.onShow()}>
+                                  <Icon>offline_pin</Icon>
+                                </IconButton>
+                            }
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )
+              })
+            : ''
+          }
+        </div>
+        <div className={classes.positionMap} >
+          <ReactGooleMap />
+        </div>
       </PaperFade>
     )
   }

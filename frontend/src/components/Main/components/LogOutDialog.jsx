@@ -26,10 +26,10 @@ export default class LogOutDialog extends React.Component {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={this.props.onHide} variant='outlined' color="primary">
+          <Button onClick={this.props.onHide} color="primary">
             {I18n.t('Button.cancel')}
           </Button>
-          <Button onClick={this.props.onLogout} variant='contained' color="primary">
+          <Button onClick={this.props.onLogout} color="primary">
             {I18n.t('Button.confirm')}
           </Button>
         </DialogActions>
