@@ -49,7 +49,6 @@ class Index extends BaseContainer {
     this.props.dispatch(OrderAction.divide(values))
       .then(data => {
         if (!data.error) {
-
           // this.props.dispatch(OrderAction.fetchAll({pageSize: -1}));
           this.notify(I18n.t('Message.success.update'));
           this.goto('/divide-order')
@@ -69,7 +68,7 @@ class Index extends BaseContainer {
     } catch (e) {
       console.error("can not build message for onNotifyHaveParams function.")
     }
-    this.notify(message, "info");
+    // this.notify(message, "info");
   }
 
   validateBeforeSubmit(message, type = "info") {

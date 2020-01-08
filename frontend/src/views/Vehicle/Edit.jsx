@@ -32,7 +32,11 @@ class Edit extends BaseView {
     this.validate = {
       general: [
         Validation.required(I18n.t("Validate.required.base")),
-      ]
+      ],
+      name: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
+      ],
     }
   }
 
@@ -52,17 +56,17 @@ class Edit extends BaseView {
             <Grid item xs={12} lg={4}>
               <TextField
                 fullWidth
-                label={I18n.t("Input.vehicle.name")}
+                label={I18n.t("Table.vehicle.name")}
                 name="name"
                 value={vehicle.name}
-                validate={this.validate.general}
+                validate={this.validate.name}
               />
             </Grid>
 
             <Grid item xs={12} lg={4}>
               <TextField
                 fullWidth
-                label={I18n.t("Input.vehicle.licensePlate")}
+                label={I18n.t("Table.vehicle.licensePlate")}
                 name="licensePlate"
                 value={vehicle.licensePlate}
                 validate={this.validate.general}
@@ -85,6 +89,7 @@ class Edit extends BaseView {
               type="capacity"
               title={I18n.t("Input.vehicle.capacity")}
               vehicle={vehicle}
+              noRequired=""
             />
 
             <FuelsForm
@@ -92,6 +97,7 @@ class Edit extends BaseView {
               title={I18n.t("Input.vehicle.remaining")}
               readOnly={true}
               vehicle={vehicle}
+              noRequired={1}
             />
           </Grid>
           <Grid item xs={12} container direction="row" justify="flex-end" alignItems="flex-end" spacing={2}>

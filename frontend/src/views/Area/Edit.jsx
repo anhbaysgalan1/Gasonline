@@ -22,10 +22,12 @@ class Create extends BaseView {
     super(props)
     this.validate = {
       code: [
-        Validation.required(I18n.t("Validate.required.base"))
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ],
       name: [
-        Validation.required(I18n.t("Validate.required.base"))
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ],
     }
   }
@@ -49,6 +51,11 @@ class Create extends BaseView {
                 name="code"
                 validate={this.validate.code}
                 value={area.code}
+                onKeyDown={(e) => {
+                  if ([" ",].indexOf(e.key) >= 0) {
+                     e.preventDefault()
+                  }
+                }}
               />
             </Grid>
 

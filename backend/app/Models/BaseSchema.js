@@ -88,7 +88,7 @@ module.exports = (fields, projection = {}, methods = null, joins = []) => {
      */
 
     async lists(options) {
-      let sorts = options.sorts || {'insert.when': 1};
+      let sorts = options.sorts || {'insert.when': -1};
       let filters = options.filters || {};
       filters.delete = {$exists: false};
 

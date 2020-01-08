@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import {Button, CardContent, Chip, Grid, Typography, withWidth} from '@material-ui/core';
-import {DateTimeField, Form, TextField, Validation} from 'components/Forms';
-import PaperFade from "components/Main/PaperFade";
-import {BaseView} from 'views/BaseView';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faYenSign} from '@fortawesome/free-solid-svg-icons';
-import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import {monthFormatBackend, monthFormatDefault} from 'config/constant';
-import {I18n} from 'helpers/I18n';
-import moment from 'moment';
+import React from 'react'
+import PropTypes from 'prop-types'
+import withStyles from '@material-ui/core/styles/withStyles'
+import {Button, CardContent, Chip, Grid, Typography, withWidth} from '@material-ui/core'
+import {DateTimeField, Form, TextField, Validation, MoneyField } from 'components/Forms'
+import PaperFade from "components/Main/PaperFade"
+import {BaseView} from 'views/BaseView'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faYenSign} from '@fortawesome/free-solid-svg-icons'
+import LocalGasStationIcon from '@material-ui/icons/LocalGasStation'
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
+import {monthFormatBackend, monthFormatDefault} from 'config/constant'
+import {I18n} from 'helpers/I18n'
+import moment from 'moment'
 
 moment.defaultFormat = monthFormatBackend;
 
@@ -82,21 +82,34 @@ class Index extends BaseView {
     )
   }
 
+  renderAdornments(name){
+    let { classes } = this.props
+    switch (name){
+      case "insurance":
+        return "L"
+      case "taxes.consumptionTax":
+        return ""
+      case "taxes.dieselTax":
+        return ""
+      default:
+        return <FontAwesomeIcon icon={faYenSign} className={classes.icon}/>
+    } 
+  }
+
   renderInput(label, name) {
     const {classes, settingPrice} = this.props;
     let {isEditing} = this.state
     return (
-      <Grid item xs={12} md={12} lg={12}>
-        <TextField
+      <Grid key={name} item xs={12} md={12} lg={12}>
+        <MoneyField
           label={label}
           name={name}
           value={this.getData(settingPrice, name, 0)}
           validate={[Validation.required(I18n.t("Validate.required.base"))]}
-          formatData={this.formatData}
           InputProps={{
             endAdornment:
               <InputAdornment position="end">
-                <FontAwesomeIcon icon={faYenSign} className={classes.icon}/>
+                {this.renderAdornments(name)}
               </InputAdornment>,
             readOnly: !isEditing
           }}
@@ -108,7 +121,7 @@ class Index extends BaseView {
   renderSettingSKE() {
     return ['diesel', 'gasoline', 'kerosene'].map(fuel =>
       (
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={4} key={fuel} >
           {this.renderChip(I18n.t(`Label.products.${fuel}`), <LocalGasStationIcon fontSize="small"/>)}
           {this.renderInput(I18n.t("Label.dateRange.startMonth"), `prices.ske.startMonth.${fuel}`)}
           {this.renderInput(I18n.t("Label.dateRange.endMonth"), `prices.ske.endMonth.${fuel}`)}
@@ -205,13 +218,12 @@ class Index extends BaseView {
                 </Grid>
               </CardContent>
             </Grid>
-
+            {/* Thuế */}
             <Grid item xs={12} lg={3}>
               <CardContent className={classes.cardBackground}>
                 <Typography variant="h6" className={classes.cardTitle}>
                   {I18n.t("Label.tax")}
                 </Typography>
-
                 {this.renderChip(I18n.t("Label.tax"), <AttachMoneyIcon fontSize="small"/>)}
                 {this.renderInput(I18n.t(`Label.taxes.consumptionTax`), "taxes.consumptionTax")}
                 {this.renderInput(I18n.t(`Label.taxes.dieselTax`), "taxes.dieselTax")}

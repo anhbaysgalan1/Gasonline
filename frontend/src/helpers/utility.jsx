@@ -147,7 +147,7 @@ const utilities = {
 
   renderFormInputFuel(fuel, data = {}, readOnly = false, defaultValue = '') {
     return (
-      <Grid item xs={12} lg={6} key={fuel}>
+      <Grid item xs={12} lg={6} key={fuel} style = {{paddingLeft: "12px"}}>
         <TextField
           fullWidth
           type="text"
@@ -155,7 +155,7 @@ const utilities = {
           margin='none'
           label={I18n.t(`Label.products.${fuel}`)}
           name={fuel}
-          formatData={this.formatData}
+          formatData={this._formatData}
           value={this._getData(data, fuel, defaultValue)}
           InputProps={{
             endAdornment: <InputAdornment position="end"> L </InputAdornment>,

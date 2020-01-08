@@ -27,17 +27,17 @@ class Index extends BaseView {
         {
           name: 'name',
           title: I18n.t('Table.vehicle.name'),
-          width: 210
+          width: 200
         },
         {
           name: 'licensePlate',
           title: I18n.t('Table.vehicle.licensePlate'),
-          width: 200
+          width: 150
         },
         {
           name: 'driver.fullName',
           title: I18n.t('Table.vehicle.driver'),
-          width: 210,
+          width: 200,
           formatterComponent: (data) => {
             return this.customDriverColumn(data)
           }
@@ -46,7 +46,7 @@ class Index extends BaseView {
           name: 'capacity',
           filterable: false,
           sortable: false,
-          width: 210,
+          width: 200,
           title: I18n.t('Table.vehicle.capacity'),
           formatterComponent: (data) => {
             return this.customFuelsColumn(data)
@@ -56,7 +56,7 @@ class Index extends BaseView {
           name: 'remain',
           filterable: false,
           sortable: false,
-          width: 210,
+          width: 200,
           title: I18n.t('Table.vehicle.remaining'),
           formatterComponent: (data) => {
             return this.customFuelsColumn(data)
@@ -67,7 +67,7 @@ class Index extends BaseView {
           title: I18n.t('Table.action'),
           filterable: false,
           sortable: false,
-          width: 150,
+          width: 120,
           formatterComponent: (data) => {
             return this.renderActionsColumn(data)
           }
@@ -97,14 +97,14 @@ class Index extends BaseView {
       case "capacity":
         if (Object.keys(capacity).length) {
           for (let fuel in capacity) {
-            results.push(<li key={fuel}>{I18n.t(`Label.products.${fuel}`)}: {capacity[fuel] || 0} L</li>)
+            results.push(<li key={fuel}>{capacity[fuel] || 0}: {I18n.t(`Label.products.${fuel}`)}</li>)
           }
         }
         break;
       case "remain":
         if (Object.keys(remain).length) {
           for (let fuel in remain) {
-            results.push(<li key={fuel}>{I18n.t(`Label.products.${fuel}`)}: {remain[fuel] || 0} L</li>)
+            results.push(<li key={fuel}>{remain[fuel] || 0}: {I18n.t(`Label.products.${fuel}`)}</li>)
           }
         }
         break;

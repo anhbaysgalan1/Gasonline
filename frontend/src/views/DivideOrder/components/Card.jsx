@@ -1,24 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import withStyles from '@material-ui/core/styles/withStyles'
-import 'react-virtualized/styles.css'
-import {withRouter} from 'react-router-dom'
-import {Badge, Button, Icon, Card as CardView, Fade, Grid, IconButton, Paper, Popper, Tooltip} from '@material-ui/core'
-import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
-import LocalShippingRoundedIcon from '@material-ui/icons/LocalShippingRounded'
-import PopupState, {bindPopper, bindToggle} from 'material-ui-popup-state'
-import {BaseView} from 'views/BaseView'
-import RemainingFuelList from './RemainingFuelList'
-import VirtualizedTable from './VirtualizedTable'
-import ReactDnd from './ReactDnd'
-import Utils from 'helpers/utility'
-import {I18n} from 'helpers/I18n'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {withRouter} from 'react-router-dom';
+import 'react-virtualized/styles.css';
+import withStyles from '@material-ui/core/styles/withStyles';
+import {Badge, Button, Card as CardView, Fade, Grid, IconButton, Paper, Popper, Tooltip} from '@material-ui/core'
+import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
+import LocalShippingRoundedIcon from '@material-ui/icons/LocalShippingRounded';
+import PopupState, {bindPopper, bindToggle} from 'material-ui-popup-state';
+import {BaseView} from 'views/BaseView';
+import RemainingFuelList from './RemainingFuelList';
+import ReactDnd from './ReactDnd';
+import Utils from 'helpers/utility';
+import {I18n} from 'helpers/I18n';
 
 const styles = theme => ({
-  marginBadge: {
-    marginRight: '20px',
-    marginBottom: '5px' 
-  },
   containerTruckInfo: {
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
     backgroundColor: theme.palette.primary.main,
@@ -35,7 +30,7 @@ const styles = theme => ({
   },
   centerBtn: {
     position: "relative",
-    left: "25%"
+    textAlign: "center"
   },
   labelBtn: {
     color: theme.palette.title.withDarkBg,
@@ -50,32 +45,32 @@ class Card extends BaseView {
     }
   }
 
-  onSubmitParamOrder(dividedByTruckOrders, orders, truck) {
-    console.log('onSubmitParamOrder dividedByTruckOrders', dividedByTruckOrders)
-    console.log('onSubmitParamOrder orders', orders)
-    console.log('onSubmitParamOrder truck', truck)
-    const {onSubmit, onCompleteSubmit, showConfirmDialog} = this.props
-    let order = orders.find(item => Number(item.id) === Number(this.props.params.id))
-    let dividedSum = Utils.getSumOfEachFuel(dividedByTruckOrders)
+  // onSubmitParamOrder(dividedByTruckOrders, orders, truck) {
+  //   console.log('onSubmitParamOrder dividedByTruckOrders', dividedByTruckOrders)
+  //   console.log('onSubmitParamOrder orders', orders)
+  //   console.log('onSubmitParamOrder truck', truck)
+  //   const {onSubmit, onCompleteSubmit, showConfirmDialog} = this.props
+  //   let order = orders.find(item => Number(item.id) === Number(this.props.params.id))
+  //   let dividedSum = Utils.getSumOfEachFuel(dividedByTruckOrders)
 
-    /* remaining - selected( đã giao và chưa giao): có thể âm
-     nếu fuel dự kiến giao lớn hơn 0 thì check validate */
+  //   /* remaining - selected( đã giao và chưa giao): có thể âm
+  //    nếu fuel dự kiến giao lớn hơn 0 thì check validate */
 
-    let invalidFuels = truck.fuels.filter((item, index) => {
-      if (Number(order.fuels[index].expectnum) <= 0) {
-        return false
-      }
-      return Number(order.fuels[index].expectnum) > Number(item.remaining) - dividedSum[index]
-    })
+  //   let invalidFuels = truck.fuels.filter((item, index) => {
+  //     if (Number(order.fuels[index].expectnum) <= 0) {
+  //       return false
+  //     }
+  //     return Number(order.fuels[index].expectnum) > Number(item.remaining) - dividedSum[index]
+  //   })
 
-    if (invalidFuels.length) {
-      this.props.onCheckInvalidFuels(invalidFuels)
-      showConfirmDialog(truck, [this.props.params.id])
-    } else {
-      onSubmit(truck, [this.props.params.id])
-      onCompleteSubmit()
-    }
-  }
+  //   if (invalidFuels.length) {
+  //     this.props.onCheckInvalidFuels(invalidFuels)
+  //     showConfirmDialog(truck, [this.props.params.id])
+  //   } else {
+  //     onSubmit(truck, [this.props.params.id])
+  //     onCompleteSubmit()
+  //   }
+  // }
 
   formatData = (orders) => {
     return orders.map((order, index) => {
@@ -104,7 +99,10 @@ class Card extends BaseView {
 
   renderHeaderCard(truck) {
     const {classes} = this.props
-    let remainingDiesel = this.getData(truck, 'remain.diesel', 0).toString()
+    let driver = this.getData(truck, "driver", null);
+    let licensePlate = this.getData(truck, "licensePlate", null);
+    let remainingDiesel = this.getData(truck, 'remain.diesel', 0).toString();
+    remainingDiesel = remainingDiesel.length >= 5 ? remainingDiesel.slice(0, 3) + '...' : remainingDiesel;
     return (
       <Grid
         container
@@ -113,23 +111,22 @@ class Card extends BaseView {
         className={classes.containerTruckInfo}
       >
         <Grid item xs={6} lg={6}>
-          {truck.driver.code}-{truck.driver.fullName}
+          {driver && `${driver.code}-${driver.fullName}`}
         </Grid>
         <Grid item xs={6} lg={6}>
-          <PopupState variant="popper" popupId="fuelsPopper"> 
+          <PopupState variant="popper" popupId="fuelsPopper">
             {popupState => (
-              <div className={classes.marginBadge}>
-                <Badge 
-                  badgeContent={remainingDiesel} 
-                  max={1000000000}
-                  color="secondary" 
+              <div>
+                <Badge
+                  badgeContent={remainingDiesel}
+                  max={10000}
+                  color="secondary"
                   className={classes.rightBtn}
                 >
                   <Button {...bindToggle(popupState)} size="small" className={classes.labelBtn}>
                     {I18n.t("Button.remaining")}
                   </Button>
                 </Badge>
-
                 <Popper {...bindPopper(popupState)} transition>
                   {({TransitionProps}) => (
                     <Fade {...TransitionProps} timeout={350}>
@@ -145,7 +142,7 @@ class Card extends BaseView {
         </Grid>
 
         <Grid item xs={6} lg={6}>
-          ({truck.licensePlate})
+          {licensePlate && `(${licensePlate})`}
         </Grid>
       </Grid>
     )
@@ -154,45 +151,24 @@ class Card extends BaseView {
   getDataSort = (data = []) => {
     let idsOrder = []
     let userId = null
-
     data.map(item => {
       idsOrder.push(item._id)
       userId = this.getData(item, 'driver._id', '')
     })
-    this.props.submitOrderSort({ userId: userId, idsOrder: idsOrder })
+    this.props.submitOrderSort({userId: userId, idsOrder: idsOrder})
   }
 
   renderFooterCard(dividedByTruckOrders, orders, truck) {
-    const {showOrdersPopup, classes} = this.props
-    let userId = this.getData(truck, "driver._id", '')
-    let checkDisabled = userId == this.state.userId ? false : true 
+    const {showOrdersPopup, classes} = this.props;
     return (
-      <div>
-        <Grid container justify="center">
-          <Grid item xs={6}>
-            <Button
-              className={this.props.params ? classes.rightBtn : classes.centerBtn}
-              size="small"
-              color="primary"
-              onClick={() => showOrdersPopup(truck)}
-            >
-              {I18n.t("Button.divide")}
-            </Button>
-          </Grid>
-          {this.props.params ?
-            <Grid item xs={6}>
-              <Button
-                className={classes.leftBtn}
-                size="small"
-                color="primary"
-                variant="contained"
-                onClick={() => this.onSubmitParamOrder(dividedByTruckOrders, orders, truck)}
-              >
-                {I18n.t("Button.confirm")}
-              </Button>
-            </Grid> : ""
-          }
-        </Grid>
+      <div className={classes.centerBtn}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => showOrdersPopup(truck)}
+        >
+          {I18n.t("Button.divide")}
+        </Button>
       </div>
     )
   }
@@ -202,43 +178,10 @@ class Card extends BaseView {
     let dividedByTruckOrders = Utils.filterDividedOrdersByTruck(orders, truck)
     // let _orders = this.formatData(dividedByTruckOrders)
     return (
-      <div> 
+      <div>
         <CardView className={classes.card}>
           {this.renderHeaderCard(truck)}
-          <ReactDnd dataFormat={dividedByTruckOrders} getDataSort={this.getDataSort} />
-          {/* <div style={{height: 400, width: '100%'}}>
-            <VirtualizedTable
-              rowCount={_orders.length}
-              rowGetter={({index}) => _orders[index]}
-              columns={[
-                {
-                  width: 20,
-                  label: 'STT',
-                  dataKey: 'index',
-                  flexGrow: 1
-                },
-                {
-                  width: 50,
-                  label: 'Customer',
-                  dataKey: 'customer',
-                  flexGrow: 1
-                },
-                {
-                  width: 220,
-                  label: 'Delivery Place',
-                  dataKey: 'address',
-                  flexGrow: 1
-                },
-                {
-                  width: 50,
-                  label: 'Action',
-                  dataKey: 'action',
-                  flexGrow: 1,
-                  maxWidth: 50
-                }
-              ]}
-            />
-          </div> */}
+          <ReactDnd dataFormat={dividedByTruckOrders} getDataSort={this.getDataSort}/>
           {this.renderFooterCard(dividedByTruckOrders, orders, truck)}
         </CardView>
       </div>

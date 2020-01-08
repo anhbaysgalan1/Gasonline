@@ -31,20 +31,14 @@ class MapLayers extends Component {
 		this.generateOptions(nextProps.options)
 	}
 
-	renderMarkerCenter() {
-		let centerPosition = this.getCenterPosition()
+	renderMarkers(latLng, index) {
 		return (
-			<Marker position={centerPosition} onClick={this.onToggleOpen} >
-				{
-					this.state.open && 
-					<InfoWindow style={{ display: 'none' }} disableAutoPan={false} >
-						<div style={{ padding: '0px', color: 'red'}}>1</div>
-					</InfoWindow>
-				}
+			<Marker position={latLng} key={index} >
+				<InfoWindow style={{ display: 'none' }} disableAutoPan={false} >
+					<div style={{ padding: '0px', color: 'red'}}>{index + 1}</div>
+				</InfoWindow>
 			</Marker>
 		)
-		// centerPosition {lat: 21.00341, lng: 105.814973}
-		// return <Marker position={ centerPosition || { lat: 20.994009, lng: 105.802667 }  } />
 	}
 	
 	setRefMap(ref) { //gán function vào ref để có thẻ gọi được từ bên ngoài
@@ -183,36 +177,23 @@ class MapLayers extends Component {
 
 	render() {
 		let options = this.getOptions()
+		let { orders } = this.props
+		let arrLatLng = []
+		if(!_.isEmpty(orders)) { 
+			orders.map(item => {
+				let latitude = Number(_.get(item, 'mapAddress.latitude', ''))
+				let longitude = Number(_.get(item, 'mapAddress.longitude', ''))
+				if(latitude && longitude)
+					arrLatLng.push({ lat: latitude, lng: longitude })
+			})
+		}
 		return (
 			<GoogleMap {...options} ref={(ref) => { this.setRefMap(ref) }} >
-				{this.renderMarkerCenter()}
-				{/* {this.props.children} */}
-				<SearchBox
-					controlPosition={google.maps.ControlPosition.LEFT_TOP}
-					bounds = {this.bounds}
-					onChange={this.onChangeInput}
-					onPlacesChanged={() => this.onPlacesChanged()}
-					ref={(ref) => { this.ref.searchBox = ref }}
-				>
-				<input
-					type="text"
-					placeholder="Search Google Maps"
-					style={{
-						boxSizing: `border-box`,
-						border: `1px solid transparent`,
-						width: `200px`,
-						height: `30px`,
-						marginTop: 10,
-						marginLeft: 10,
-						padding: `0 12px`,
-						borderRadius: `1px`,
-						boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-						fontSize: `12px`,
-						outline: `none`,
-						textOverflow: `ellipses`,
-					}}
-				/>
-			</SearchBox>
+				{
+					arrLatLng.map((item, index) => {
+						return this.renderMarkers(item, index)
+					})
+				}
 			</GoogleMap>
 		)
 	}

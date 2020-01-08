@@ -3,6 +3,10 @@ export default {
     app_name: "SKE 受注配車システム",
     company_name: "株式会社SKE",
 
+    Form: {
+      noOption: "見つかりません",
+    },
+
     Button: {
       login: "ログイン",
       logout: "ログアウト",
@@ -19,8 +23,11 @@ export default {
       cancel: "キャンセル",
       save: "保存",
       update: "更新",
-      print: "印刷",
+      print: "一括印刷", 
+      printItem: "印刷",
+      export: "エクスポート",
       exportPDF: 'PDF出力',
+      exportExcel: 'エクスポート',
       divide: "区分",
       confirm: "確認",
       remaining: "残量",
@@ -29,8 +36,8 @@ export default {
     },
 
     Sidebar: {
-      area: "エリア",
-      customer: "顧客",
+      area: "エリアコード",
+      customer: "顧客マスター",
       delivery: "配送一覧",
       deliveryOthers: "その他の配達一覧",
       divideOrder: "受注配車",
@@ -48,8 +55,8 @@ export default {
 
     Breadcrumb: {
       area: {
-        index: "エリア一覧",
-        create: "エリア追加",
+        index: "エリアコード",
+        create: "エリアコード追加",
         edit: "エリアの情報編集"
       },
 
@@ -105,7 +112,7 @@ export default {
     Label: {
       all: "全部",
       amount: "金額",
-      chooseDate: "日付選択",
+      chooseDate: "配達日報の日付選択",
       chooseSizePaper: "用紙サイズ選択",
       chooseProduct: "商品選択",
       createCustomerByPhone: "新規顧客: {{phone}}",
@@ -117,10 +124,11 @@ export default {
       report: "配達日報一覧",
       receivedVehicle: "車番",
       status: "状態",
-      tax: "税金",
+      tax: "税率",
       totalAmount: "合計",
       endMonth: "月末",
-
+      orderSelected: "選択された受注",
+      noAddress: '住所を見つけませんでした',
       customer: {
         mapTypeValue: {
           '1': 'SKE',
@@ -196,22 +204,23 @@ export default {
       quantity: "数量",
       sex: "性別",
       status: "状態",
-
+      date: '日付',
+      
       auth: {
         username: "アカウント",
         password: "パスワード",
-        rePassword: "パスワードの再入力"
+        rePassword: "パスワード確認"
       },
 
       area: {
-        code: "エリアコード",
+        code: "エリアコード番号",
         name: "エリア"
       },
 
       customer: {
         code: "顧客コード",
         name: "顧客名",
-        type: "タイプ",
+        type: "対象",
         extendPrice: "単価",
         paymentTerm: "締日",
         flag: "Flag"
@@ -229,8 +238,8 @@ export default {
         code: "ユーザーコード",
         name: "ユーザー名",
         position: "役職",
-        firstName: "姓",
-        lastName: "名"
+        firstName: "名",
+        lastName: "姓"
       },
 
       vehicle: {
@@ -257,7 +266,7 @@ export default {
       amount: "金額",
       code: "コード",
       createdAt: "作成日",
-      email: "メールアドレス",
+      email: "アドレス",
       name: "名称",
       no: "NO.",
       phone: "電話番号",
@@ -268,8 +277,8 @@ export default {
       totalAmount: "合計",
 
       area: {
-        code: "エリアコード",
-        name: "イリア"
+        code: "コード",
+        name: "エリア名"
       },
 
       customer: {
@@ -282,8 +291,8 @@ export default {
 
       driver: {
         code: "コード",
-        name: "ダライバー名",
-        cardNumber: "カード番号"
+        name: "氏名",
+        cardNumber: "カードナンバー"
       },
 
       order: {
@@ -324,7 +333,7 @@ export default {
       },
 
       passwordNotMatch: "パスワードが一致しません。再入力してください !",
-      editFuelsTruck: "容積は残量よりも大きくしてください",
+      editFuelsTruck: "残量は容積より大きい値を入力できません。",
       invalidFuelsOrder: "予定数量は注文数量より大きくすることはできません",
       emptyFuelsOrder: "予定数量がまだ入力されていません",
       emptyFuelsImport: "少なくとも１つの燃料種類に数量入力する必要があります。",
@@ -340,6 +349,9 @@ export default {
       phone: {
         minLength: " 電話番号の項目に${arguments[0]}桁以上に入力してください",
         maxLength: " 電話番号の項目に${arguments[0]}桁以下に入力してください"
+      },
+      email: {
+        format : "メールアドレスは不正です。"
       },
       truck: {
         capacity: "容積の項目に残量より大きな値を入力してください",
@@ -373,6 +385,7 @@ export default {
         create: "データが追加されました。",
         update: "データが更新されました。",
         delete: "データが削除されました。",
+        noOrdersSelected: "受注がまだ選択されていません",
         // custom for another subject
         customer: {
           create: "新顧客が追加されました",
@@ -406,6 +419,7 @@ export default {
       detail: "詳細",
       delete: "削除",
       exportCSV: "CSVへ出力",
+      exportExcel: "Excelへ出力",
       print: "印刷",
       shareOrder: "配車",
       deliver: "配達",

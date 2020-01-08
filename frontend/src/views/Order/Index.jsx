@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {Chip, Typography} from '@material-ui/core';
 import BaseView from 'views/BaseView';
 import PaperFade from 'components/Main/PaperFade';
+import {formatDateField} from 'config/constant';
 import SelectField, {Option} from 'components/Forms/SelectField';
 import Utils from 'helpers/utility';
 import {I18n} from 'helpers/I18n';
@@ -38,7 +39,7 @@ class Index extends BaseView {
           filterFormat: "DD/MM/YY",
           defaultFilterOperation: "daterange",
           formatterComponent: (data) => this.renderDataField(data, 'insert.when', 'date'),
-          width: 90
+          width: 100
         },
         {
           name: 'deliveryDate',
@@ -47,17 +48,19 @@ class Index extends BaseView {
           filterFormat: "DD/MM/YY",
           defaultFilterOperation: "daterange",
           formatterComponent: (data) => this.renderDataField(data, null, 'date'),
-          width: 90
+          width: 100
         },
         {
           name: 'customer.name',
           title: I18n.t('Table.customer.name'),
+          width: 100,
           formatterComponent: (data) => this.renderDataField(data, 'customer.name')
         },
         {
           name: 'deliveryTime',
           title: I18n.t('Table.order.deliveryTime'),
           type: "number",
+          width: 100,
           formatterComponent: (data) => Utils._formatDeliveryTime(data),
           editorComponent: ({value, onValueChange}) => (
             <SelectField
@@ -78,7 +81,8 @@ class Index extends BaseView {
         {
           name: 'deliveryAddress',
           title: I18n.t('Table.order.address'),
-          formatterComponent: (data) => <Typography noWrap={true}>{data.value}</Typography>
+          formatterComponent: (data) => <Typography>{data.value}</Typography>,
+          width: 200
         },
         {
           name: 'orderDetails',
@@ -87,14 +91,16 @@ class Index extends BaseView {
           title: I18n.t('Table.order.expectNum'),
           formatterComponent: (data) => {
             return this.renderDetailsColumn(data);
-          }
+          },
+          width: 200
         },
         {
           name: 'status',
           title: I18n.t('Table.status'),
           formatterComponent: (data) => {
             return this.mapLabelStatus(data);
-          }
+          },
+          width: 100,
         },
         {
           name: '_id',
@@ -103,7 +109,8 @@ class Index extends BaseView {
           sortable: false,
           formatterComponent: (data) => {
             return this.renderActionsColumn(data)
-          }
+          },
+          width: 200
         },
       ],
       defaultSort: [],
@@ -137,7 +144,6 @@ class Index extends BaseView {
     switch (data.value) {
       case 1:
         return <Chip size="small" label={I18n.t('Label.statusOrder.waiting')}/>;
-
       case 2:
         return (
             <div align="center">

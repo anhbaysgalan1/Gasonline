@@ -28,6 +28,10 @@ const FIELDS = {
     type: String,
     required: true
   },
+  mapAddress: {
+    latitude: {type: String},
+    longitude: {type: String},
+  },
   deliveryDate: {
     type: Date,
     required: true

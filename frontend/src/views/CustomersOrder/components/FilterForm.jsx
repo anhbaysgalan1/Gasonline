@@ -1,23 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Form, TextField, Validation, DateTimeField } from "components/Forms";
+import { Form, Validation, DateTimeField } from "components/Forms";
 import AutoCompleteField, {
   Option as OptionAuto
 } from "components/Forms/AutoCompleteField";
-import SelectField, { Option } from "components/Forms/SelectField";
 import { BaseView } from "views/BaseView";
 import { I18n } from "helpers/I18n";
 import {
   Grid,
-  Button,
-  Typography,
-  CardActions,
-  Card,
-  CardContent
+  Button
 } from "@material-ui/core";
-import PaperFade from "components/Main/PaperFade";
-import { object, customerPaymentTerms, months } from "config/constant";
+import { object} from "config/constant";
 import _ from "lodash";
 import moment from "moment";
 
@@ -33,6 +27,9 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       padding: `${theme.spacing.unit * 0.5}px ${theme.spacing.unit * 2}px`
     }
+  },
+  nonePadding: {
+    padding: '0 !important'
   }
 });
 
@@ -52,6 +49,7 @@ class Create extends BaseView {
 
   onHandleChange = (name, { value }) => {
     this.setState({ data: { ...this.state.data, [name]: value } });
+    this.props.loadUser({[name]: value})
   };
 
   onHandleDate = (name, value) => {
@@ -67,23 +65,48 @@ class Create extends BaseView {
     }
   };
 
+  renderOptionCustomer ({customers=[], type}) {
+    return (
+      customers
+        .reduce((res, item) => (
+          item.type != type 
+            ? res
+            : [
+              ...res, 
+              <OptionAuto
+                key={item._id}
+                value={item._id}
+                showCheckbox={false}
+              >
+                {item.name} - {item.code}
+              </OptionAuto>
+            ]
+        ), [
+          <OptionAuto key="0" value="" showCheckbox={false}>
+            {I18n.t("Label.all")}
+          </OptionAuto>
+        ])
+    )
+  }
+
   render() {
-    const { classes, loadUser, customers = [] } = this.props;
+    let { classes, onSubmit, customers = [] } = this.props;
     let { data } = this.state;
     let startDate = _.get(data, "startDate", "");
     let endDate = _.get(data, "endDate", "");
     let type = _.get(data, "type", "1");
+
     return (
-      <Form className={classes.form} onSubmit={loadUser}>
+      <Form className={classes.form} onSubmit={onSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3} lg={3}>
             <AutoCompleteField
               key="0"
               fullWidth
               margin="dense"
               select
               label={I18n.t("Input.customer.type")}
-              name="object"
+              name="type"
               isMulti={false}
               defaultValue="1"
               isClearable={false}
@@ -100,8 +123,8 @@ class Create extends BaseView {
               ))}
             </AutoCompleteField>
           </Grid>
-          <Grid item xs={9}></Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={9} lg={9} className={classes.nonePadding}></Grid>
+          <Grid item xs={12} sm={6} md={3} lg={3}>
             <DateTimeField
               fullWidth
               label={I18n.t("Label.dateRange.fromDate")}
@@ -113,7 +136,7 @@ class Create extends BaseView {
               onChange={value => this.onHandleDate("startDate", value)}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3} lg={3}>
             <DateTimeField
               fullWidth
               label={I18n.t("Label.dateRange.toDate")}
@@ -128,7 +151,7 @@ class Create extends BaseView {
               forwardRef={ref => (this.endDateField = ref)}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3} lg={3}>
             <AutoCompleteField
               key="2"
               fullWidth
@@ -140,24 +163,16 @@ class Create extends BaseView {
               isClearable={false}
               isDisabled={startDate && endDate ? false : true}
             >
-              {customers.map(item => (
-                <OptionAuto
-                  key={item._id}
-                  value={item._id}
-                  showCheckbox={false}
-                >
-                  {item.name} - {item.code}
-                </OptionAuto>
-              ))}
+              {this.renderOptionCustomer({customers, type})}
             </AutoCompleteField>
           </Grid>
-          <Grid item xs={3} className={classes.buttonConfirm}>
+          <Grid item xs={12} sm={6} md={3} lg={3} className={classes.buttonConfirm}>
             <Button
               disabled={startDate && endDate ? false : true}
               type="submit"
               variant="contained"
               color="primary"
-              onClick={() => this.props.getTypeViews(type)}
+              onClick={() => this.props.setTypeViews(type)}
             >
               {I18n.t("Button.confirm")}
             </Button>

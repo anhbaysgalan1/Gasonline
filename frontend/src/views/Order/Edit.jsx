@@ -27,16 +27,37 @@ const styles = theme => ({
 class Edit extends BaseView {
   constructor(props) {
     super(props);
+    this.state = {
+      checkExist: true,
+      reload: false,
+      statusMouse: true,
+      
+    }
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onSubmit(value) {
+    let lat = this.getData(value, 'lat', '')
+    let lng = this.getData(value, 'lng', '')
+    if(lng && lat){
+      this.props.onSubmit(value)
+      this.setState({ checkExist: true, reload: !this.state.reload })
+    } else {
+      this.setState({ checkExist: false , reload: !this.state.reload })
+    }
+  }
+
+  getMouseInOutAddress = (statusMouse) => {
+    this.setState({ statusMouse: statusMouse, reload: !this.state.reload })
   }
 
   renderChip(order) {
     const {classes} = this.props;
     let driverName = this.getData(order, "driver.lastname", "") + " " + this.getData(order, "driver.firstname", "");
 
-    switch (order.orderStatus) {
+    switch (this.getData(order, 'orderStatus', '')) {
       case "waiting":
         return <Chip label={I18n.t('Label.statusOrder.waiting')} className={classes.chip}/>;
-
       case "divided":
         return (
           <Grid className={classes.chip}>
@@ -64,10 +85,10 @@ class Edit extends BaseView {
   }
 
   render() {
-    const {classes, onSubmit, customers, areas, order} = this.props;
+    const {classes, customers, areas, order} = this.props
     return (
       <PaperFade>
-        <Form className={classes.form} onSubmit={onSubmit}>
+        <Form className={classes.form} onSubmit={this.onSubmit} > 
           <Grid container>
             <Grid item xs={12} lg={12}>
               {this.renderChip(order)}
@@ -83,9 +104,11 @@ class Edit extends BaseView {
 
             <Grid item xs={12} lg={9}>
               <MainForm
+                checkExist={this.state.checkExist}
                 customers={customers}
                 areas={areas}
                 order={order}
+                getMouseInOutAddress={this.getMouseInOutAddress}
               />
             </Grid>
           </Grid>

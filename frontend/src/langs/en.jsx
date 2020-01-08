@@ -21,6 +21,7 @@ export default {
       update: "Update",
       print: "Print",
       exportPDF: 'PDF',
+      exportExcel: 'Export excel',
       divide: "Divide",
       confirm: "Confirm",
       remaining: "Remaining",
@@ -114,7 +115,9 @@ export default {
       status: "Status",
       tax: "TAX",
       totalAmount: "Total Amount",
-
+      orderSelected: "Order Selected",
+      noAddress: 'No Address',
+      
       customer: {
         mapTypeValue: {
           "1": "SKE",
@@ -364,6 +367,7 @@ export default {
         create: "Create data successfully",
         update: "Update data successfully",
         delete: "Remove data successfully",
+        noOrdersSelected: "No orders selected",
         // custom for another subject
         customer: {
           create: "Create customer successfully",
@@ -397,6 +401,7 @@ export default {
       detail: "View detail",
       delete: "Remove selected rows",
       exportCSV: "CSV",
+      exportExcel: "Excel",
       print: "Print",
       shareOrder: "Divide orders",
       deliver: "Deliver",
@@ -407,7 +412,8 @@ export default {
       backIconButtonText: 'Previous page',
       labelRowsPerPage: 'Rows per page:',
       labelDisplayedRows: ({from, to, count}) => `${from}-${to === -1 ? count : to} of ${count} ${count !== 1 ? 'items' : 'item'}`,
-      nextIconButtonText: 'Next page'
+      nextIconButtonText: 'Next page',
+      noData: 'no Data',
     }
   }
 }

@@ -45,7 +45,7 @@ const DeliveryOthers = lazy(() => import('containers/DeliveryOthers/Index'))
 const PouredAmount = lazy(() => import('containers/PouredAmount/Index'))
 const RemainingAmount = lazy(() => import('containers/RemainingAmount/Index'))
 
-const InvoiceIndex = lazy(() => import('containers/Pay/Index'))
+const InvoiceIndex = lazy(() => import('containers/Invoice/Index'))
 const CustomerOrderIndex = lazy(() => import('containers/CustomersOrder/Index'))
 
 const routes = [

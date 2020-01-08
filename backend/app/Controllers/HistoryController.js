@@ -80,12 +80,17 @@ class HistoryController extends BaseController {
     if (err) return HttpUtil.unprocessable(res, err);
 
     if (params.type === typePouring.import) {
-      params = {...params, driver: authUser._id, vehicle: vehicle._id};
-      let remains = {}, oldRemain = vehicle.remain;
+      params = { ...params, driver: authUser._id, vehicle: vehicle._id };
+      let remains = {}, oldRemain = vehicle.remain, capacity = vehicle.capacity;
       params.details.map(item => {
-        let {material, quantity} = item;
+        let { material, quantity } = item;
+        let capacityRemain = capacity[material] - oldRemain[material]
+        if (capacityRemain < quantity && capacity[material] != undefined) {
+          return err = 'Errors.ImportOverCapacity'
+        }
         remains[material] = this.service.changeNumberRemainingFuels(oldRemain, material, quantity);
       });
+      if (err) return HttpUtil.badRequest(res, Utils.localizedText(err));
 
       [err, result] = await to(Promise.all([
         this.model.insertOne(params, authUser),

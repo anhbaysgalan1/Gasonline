@@ -3,6 +3,10 @@ export default {
     app_name: "Gasonline",
     company_name: "SKE",
 
+    Form: {
+      noOption: "Không tìm thấy",
+    },
+
     Button: {
       login: "Sign in",
       logout: "Sign out",
@@ -20,7 +24,9 @@ export default {
       save: "Lưu",
       update: "Cập nhật",
       print: "In ấn",
+      printItem: "In ấn",
       exportPDF: 'Xuất PDF',
+      exportExcel: 'Xuất Excel',
       divide: "Phân chia",
       confirm: "Xác nhận",
       remaining: "Số lượng còn lại",
@@ -116,9 +122,11 @@ export default {
       report: "Danh Sách Báo Cáo Giao Hàng",
       receivedVehicle: "Xe tiếp nhiên liệu",
       status: "Trạng Thái",
+      month: "Tháng",
       tax: "Thuế",
       totalAmount: "Tổng Tiền",
-
+      orderSelected: "Đơn hàng được chọn",
+      noAddress: 'Không tìm thấy địa chỉ',
       customer: {
         mapTypeValue: {
           "1": "SKE",
@@ -198,7 +206,7 @@ export default {
       quantity: "Số lượng",
       sex: "Giới tính",
       status: "Trạng thái",
-
+      date: 'Ngày',
       auth: {
         username: "Tài khoản",
         password: "Mật khẩu",
@@ -350,7 +358,7 @@ export default {
       },
 
       passwordNotMatch: "Mật Khẩu Không Khớp. Hãy Nhập Lại!",
-      editFuelsTruck: "Dung tích phải lớn hơn nhiên liệu còn lại!",
+      editFuelsTruck: "Dung tích phải lớn hơn hoặc bằng nhiên liệu còn lại!",
       invalidFuelsOrder: "Số lượng dự kiến không được lớn hơn số lượng order",
       emptyFuelsOrder: "Chưa thêm số lượng nhiên liệu đặt hàng",
       emptyFuelsImport: "Chưa thêm số lượng nhiên liệu đổ vào xe bồn",
@@ -366,6 +374,9 @@ export default {
       phone: {
         minLength: "Vui lòng nhập số điện thoại lớn hơn ${arguments[0]} chữ số",
         maxLength: "Vui lòng nhập số điện thoại nhỏ hơn ${arguments[0]} chữ số"
+      },
+      email: {
+        format : "Email nhập không đúng định dạng"
       },
       truck: {
         capacity: "Vui lòng nhập dung tích lớn hơn nhiên liệu còn lại",
@@ -397,11 +408,14 @@ export default {
     },
 
     Message: {
+      
       success: {
         create: "Thêm mới dữ liệu thành công",
         update: "Cập nhật dữ liệu thành công",
         delete: "Đã xóa dữ liệu thành công",
+        noOrdersSelected: 'Không có đơn hàng nào được chọn',
         // custom for another subject
+        
         customer: {
           create: "Thêm mới khách hàng thành công",
           update: "Cập nhật khách hàng thành công"
@@ -434,6 +448,7 @@ export default {
       detail: "Xem chi tiết",
       delete: "Xóa các hàng đã chọn",
       exportCSV: "Xuất file CSV",
+      exportExcel: "Xuất file excel",
       print: "In danh sách",
       shareOrder: "Phân chia đơn đặt hàng",
       deliver: "Giao hàng",
@@ -444,7 +459,8 @@ export default {
       backIconButtonText: 'Trang trước',
       labelRowsPerPage: 'Hiển thị:',
       labelDisplayedRows: ({ from, to, count }) => `${from}-${to === -1 ? count : to} / ${count} bản ghi`,
-      nextIconButtonText: 'Trang sau'
+      nextIconButtonText: 'Trang sau',
+      noData: "Không có dữ liệu",
     }
   }
 }

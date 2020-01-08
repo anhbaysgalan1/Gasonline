@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const styles = theme => ({
-  label: {
-    lineHeight: "56px"
+  labelChooseDate: {
+    lineHeight: "56px",    
   },
   calendar: {
     display: "inline-block",
@@ -41,17 +41,17 @@ class Index extends BaseView {
     return (
       <PaperFade>
         <Form className={classes.form} >
-          <Grid container
-          spacing={4}
-          >
+          <Grid container spacing={4} direction='row' justify='flex-start' alignItems='flex-end' >
             <Grid item xs={12} md={2} >
-              <Typography className={classes.label}>{I18n.t("Label.chooseDate")}</Typography>
+              <Typography className={classes.labelChooseDate}>{I18n.t("Label.chooseDate")}</Typography>
             </Grid>
             <Grid item xs={12} md={4} >
               <DateTimeField
                 name="date"
                 variant="inline"
                 format="YYYY/MM/DD"
+                label={I18n.t('Input.date')}
+
                 showTime={false}
                 validate={[
                   Validation.required(I18n.t("Validate.required.base")),

@@ -23,11 +23,9 @@ class Edit extends BaseView {
     super(props)
     this.state = {}
     this.validate = {
-      code: [
-        Validation.required(I18n.t("Validate.required.base"))
-      ],
       name: [
         Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ],
       cardNum: [
         Validation.required(I18n.t("Validate.required.base")),
@@ -35,10 +33,39 @@ class Edit extends BaseView {
       ],
       phone: [
         Validation.required(I18n.t("Validate.required.base")),
-        Validation.maxLength(12, I18n.t("Validate.phone.maxLength")),
+        Validation.maxLength(13, I18n.t("Validate.phone.maxLength")),
         Validation.minLength(10, I18n.t("Validate.phone.minLength")),
+      ],
+      email: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.validateEmail(I18n.t("Validate.email.format"))
       ]
     };
+  }
+
+  phoneFormatter = (number) => {
+    number = number.replace(/[^\d]/g, '')
+    if (number.length == 4) {
+       number = number.replace(/(\d{4})/, "$1")
+    } else if (number.length == 5) {
+       number = number.replace(/(\d{4})(\d{1})/, "$1-$2")
+    } else if (number.length == 6) {
+       number = number.replace(/(\d{4})(\d{2})/, "$1-$2")
+    } else if (number.length == 7) {
+       number = number.replace(/(\d{4})(\d{3})/, "$1-$2")
+    } else if (number.length == 8) {
+       number = number.replace(/(\d{4})(\d{3})(\d{1})/, "$1-$2-$3")
+    } else if (number.length == 9) {
+       number = number.replace(/(\d{4})(\d{3})(\d{2})/, "$1-$2-$3")
+    } else if (number.length == 10) {
+       number = number.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3")
+    } else if (number.length == 11) {
+       number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    } else if (number.length > 11) {
+       number = number.substring(0, 11)
+       number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    }
+    return number
   }
 
   render() {
@@ -73,7 +100,7 @@ class Edit extends BaseView {
             <Grid item xs={12} lg={6}>
               <TextField
                 fullWidth
-                type="email"
+                type="text"
                 label={I18n.t("Input.email")}
                 name="email"
                 value={driver.email}
@@ -89,7 +116,7 @@ class Edit extends BaseView {
                 name="phone"
                 value={driver.phone}
                 validate={this.validate.phone}
-                formatData={this.formatData}
+                formatData={this.phoneFormatter}
               />
             </Grid>
 
@@ -101,7 +128,6 @@ class Edit extends BaseView {
                 name="driverCards.fuelNumber"
                 value={this.getData(driver, 'driverCards.fuelNumber', '')}
                 validate={this.validate.cardNum}
-                formatData={this.formatData}
               />
             </Grid>
 
@@ -113,7 +139,6 @@ class Edit extends BaseView {
                 name="driverCards.deliverNumber"
                 value={this.getData(driver, 'driverCards.deliverNumber', '')}
                 validate={this.validate.cardNum}
-                formatData={this.formatData}
               />
             </Grid>
           </Grid>

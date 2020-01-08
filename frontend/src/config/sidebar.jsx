@@ -20,7 +20,7 @@ import Delivery from 'containers/Delivery/Index'
 import DeliveryOthers from 'containers/DeliveryOthers/Index'
 import RemainingAmount from 'containers/RemainingAmount/Index'
 
-import InvoiceIndex from 'containers/Pay/Index'
+import InvoiceIndex from 'containers/Invoice/Index'
 import CustomerOrderIndex from 'containers/CustomersOrder/Index'
 import PouredAmount from 'containers/PouredAmount/Index'
 

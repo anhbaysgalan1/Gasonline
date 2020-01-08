@@ -34,6 +34,15 @@ const styles = theme => ({
   gridTable: {
     overFlow: "auto",
   },
+  heightExpan: {
+    [theme.breakpoints.down('xs')]: {
+      minHeight: "35px", 
+      height: "20px",
+    },
+  },
+  tablePadding: {
+    padding: '0px'
+  }
 })
 
 class Index extends BaseView {
@@ -63,12 +72,13 @@ class Index extends BaseView {
         value={date}
         onChange={this.onChangeDate}
         InputProps={{readOnly: true}}
-        style={{marginTop: 0}}
+        // style={{marginTop: 0}}
       />
     )
   }
 
-  renderDetailHead = (classes) => {
+  renderDetailHead = () => {
+    let { classes } = this.props
     const fields = {
       fuel: '',
       expectNum: '(L)',
@@ -77,7 +87,7 @@ class Index extends BaseView {
     let arr = [];
     for (let key in fields) {
       arr.push(
-        <TableCell key={key} align='left' className={classes ? classes.paper : ''}>
+        <TableCell key={key} align='left' className={classes.tablePadding}>
           {I18n.t(`Table.order.${key}`)} {fields[key]}
         </TableCell>
       )
@@ -85,11 +95,12 @@ class Index extends BaseView {
     return arr
   }
 
-  renderDetailFuels(data, classes) {
+  renderDetailFuels(data) {
+    let { classes } = this.props
     return ['name', 'quantity', 'numberDelivered'].map(field => {
       let value = this.getData(data, field, 0);
       if (field === 'name') value = I18n.t(`Label.products.${value}`)
-      return (<TableCell key={field} align='left' className={classes ? classes.paddingTable : ''}>{value}</TableCell>)
+      return <TableCell className={classes.tablePadding} key={field} align='left' >{value}</TableCell>
     })
   }
 
@@ -109,60 +120,58 @@ class Index extends BaseView {
               let driverFullName = _.get(item, 'driver.fullName', '')
               let orders = _.get(item, 'orders', [])
               return (
-                <ExpansionPanel key={index}>
-                  <ExpansionPanelSummary className={classes.paper} expandIcon={<ExpandMoreIcon/>}>
+                <ExpansionPanel key={index} >
+                  <ExpansionPanelSummary className={classes.heightExpan} expandIcon={<ExpandMoreIcon/>}>
                     <Typography color='primary'>{index + 1}, {driverFullName}</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails className={classes.paper}>
-                    <Grid container direction="row" spacing={0}>
-                      <Grid item xs={12}>
-                        {
-                          orders.map((element, count) => {
-                            let orderDetails = this.getData(element, 'orderDetails', [])
-                            return (
-                              <Grid container direction="row" spacing={0} key={count}>
-                                <Grid item xs={12}>
-                                  <ExpansionPanel>
-                                    <ExpansionPanelSummary className={classes.paper}>
-                                      <Grid container spacing={1}>
-                                        <Grid item xs={9}>
-                                          <Typography
-                                            display='inline'>{count + 1}, {this.getData(element, 'customer.name', '')} ({this.getData(element, 'customer.code', '')}) </Typography>
-                                          <Typography> {this.getData(element, 'deliveryAddress', '')} ({this.getData(element, 'area.code', '')}) </Typography>
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                          {Utils._formatOrderStatus(this.getData(element, 'status', ''))}
-                                          <Typography> {Utils._formatDeliveryTime(this.getData(element, 'deliveryTime', ''))}</Typography>
-                                        </Grid>
+                    <div>
+                      {
+                        orders.map((element, count) => {
+                          let orderDetails = this.getData(element, 'orderDetails', [])
+                          return (
+                            <Grid container direction="row" spacing={0} key={count}>
+                              <Grid item xs={12}>
+                                <ExpansionPanel>
+                                  <ExpansionPanelSummary >
+                                    <Grid container spacing={1}>
+                                      <Grid item xs={9}>
+                                        <Typography
+                                          display='inline'>{count + 1}, {this.getData(element, 'customer.name', '')} ({this.getData(element, 'customer.code', '')}) </Typography>
+                                        <Typography> {this.getData(element, 'deliveryAddress', '')} ({this.getData(element, 'area.code', '')}) </Typography>
                                       </Grid>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails className={classes.paper}>
-                                      <Table className={classes.paper}>
-                                        <TableHead className={classes.paper}>
-                                          <TableRow>{this.renderDetailHead()}</TableRow>
-                                        </TableHead>
-                                        <TableBody className={classes.paper}>
-                                          {
-                                            orderDetails.map((item, index) => {
-                                              return (
-                                                <TableRow key={index}>
-                                                  {this.renderDetailFuels(item)}
-                                                </TableRow>
-                                              )
-                                            })
-                                          }
-                                        </TableBody>
-                                      </Table>
-                                    </ExpansionPanelDetails>
-                                  </ExpansionPanel>
-                                  <br/>
-                                </Grid>
+                                      <Grid item xs={3}>
+                                        {Utils._formatOrderStatus(this.getData(element, 'status', ''))}
+                                        <Typography> {Utils._formatDeliveryTime(this.getData(element, 'deliveryTime', ''))}</Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </ExpansionPanelSummary>
+                                  <ExpansionPanelDetails>
+                                    <Table>
+                                      <TableHead>
+                                        <TableRow>{this.renderDetailHead()}</TableRow>
+                                      </TableHead>
+                                      <TableBody >
+                                        {
+                                          orderDetails.map((item, index) => {
+                                            return (
+                                              <TableRow key={index} className={classes.tablePadding}>
+                                                {this.renderDetailFuels(item)}
+                                              </TableRow>
+                                            )
+                                          })
+                                        }
+                                      </TableBody>
+                                    </Table>
+                                  </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <br/>
                               </Grid>
-                            )
-                          })
-                        }
-                      </Grid>
-                    </Grid>
+                            </Grid>
+                          )
+                        })
+                      }
+                    </div>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               )

@@ -16,6 +16,11 @@ const styles = theme => ({
   root: {
     display: 'flex',
   },
+  widthSidebar: { 
+    [theme.breakpoints.up('md')]: {
+      // width: '258px !important',
+    }
+  }, 
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -62,7 +67,9 @@ class Main extends React.Component {
     const Component = permission.hasPermission(route.role) ? route.component : AccessDenied
     return <div className={classes.root}>
       <CssBaseline/>
-      <LeftSide route={route}/>
+      {/* <div className={classes.widthSidebar} > */}
+        <LeftSide route={route}/>
+      {/* </div> */}
       <main className={classes.content}>
         <div className={classes.toolbar}/>
         <Suspense fallback={this.renderLoading()}>

@@ -53,5 +53,10 @@ module.exports = {
       if (err) return cb(err);
       return cb(null, payload)
     })
+  },
+
+  setFullName(user) {
+    user.fullName = user.firstName + user.lastName;
+    return user
   }
 };

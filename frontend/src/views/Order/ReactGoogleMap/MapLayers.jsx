@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 import {compose, withProps} from "recompose"
 import SearchBox from "react-google-maps/lib/components/places/SearchBox"
+import {DateTimeField, TextField, Validation} from 'components/Forms'
 import { Icon, Input } from '@material-ui/core'
+import {I18n} from 'helpers/I18n'
 import _ from 'lodash'
 
 const google = window.google = window.google ? window.google : {}
@@ -12,12 +14,20 @@ const { StandaloneSearchBox } = require("react-google-maps/lib/components/places
 class MapLayers extends Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			deliveryAddress: "",
+			reload: false,
+		}
 		this.ref 	 = { map: null, markerCenter: null, searchBox: null }
 		this.state = { options: {}, zoom: null, bounds: null, canter: {} }
 		this.centerPosition = null
 		this.bounds = null
+		this.validate = {
+      required: [
+        Validation.required(I18n.t("Validate.required.base"))
+      ]
+    }
 	}
-
 	componentDidMount() {
 		this.generateOptions(this.props.options)
 	}
@@ -25,9 +35,9 @@ class MapLayers extends Component {
 		this.generateOptions(nextProps.options)
 	}
 	renderMarkerCenter() {
-		let centerPosition = this.getCenterPosition()
-		return <Marker position={centerPosition} />
-		// return <Marker position={ centerPosition || { lat: 20.994009, lng: 105.802667 }  } />
+		let center = this.getCenterPosition()
+		if(_.get(center, 'lat', '') && (_.get(center, 'lat', '')))
+			return <Marker position={center} /> // position={{lat: 20.994009, lng: 105.802667}}
 	}
 	
 	setRefMap(ref) { //gán function vào ref để có thẻ gọi được từ bên ngoài
@@ -79,7 +89,11 @@ class MapLayers extends Component {
 	}
 	
 	getCenterPosition(){
-		return this.centerPosition || { lat: 21.003410, lng: 105.814973 }
+		let centerServer = {
+			lat: Number(_.get(this.props, 'order.mapAddress.latitude', '')),
+			lng: Number(_.get(this.props, 'order.mapAddress.longitude', ''))
+		}
+		return this.centerPosition || centerServer
 	}
 	getZoom(){
 		return parseInt(this.state.zoom) > 1 ?  this.state.zoom || 15 : 1;
@@ -107,8 +121,11 @@ class MapLayers extends Component {
 			}
 		}
 		this.setState({ options: options })
-		let defauCenter = { lat: 21.003410, lng: 105.814973 }
-		let zoom = 11
+		let defauCenter = { 
+			lat: Number(_.get(this.props, 'order.mapAddress.latitude', '')), 
+			lng: Number(_.get(this.props, 'order.mapAddress.longitude', '') )
+		}
+		let zoom = 14
 		this.setCenter(defauCenter, true)
 		this.setZoom(zoom)
 	}
@@ -142,10 +159,11 @@ class MapLayers extends Component {
   onPlacesChanged() {
 		const places = this.ref.searchBox.getPlaces()
 		if(!places) return 
+		let deliveryAddress = ""
+		let lat = ""
+		let lng = ""
 		if(places.length){
-			let name = _.get(places[0], 'name', '')
-			let formatted_address = _.get(places[0], 'formatted_address', '')
-			this.props.getDeliveryAddress(name)
+			deliveryAddress = _.get(places[0], 'formatted_address', '') //formatted_address, name
 		}
 		const bounds = new google.maps.LatLngBounds()
 		places.forEach(place => {
@@ -153,14 +171,18 @@ class MapLayers extends Component {
 				bounds.union(place.geometry.viewport)
       } else {
 				bounds.extend(place.geometry.location)
-      }
+			}
 		})
 	
     const nextMarkers = places.map(place => ({ position: place.geometry.location }))
 		let nextCenter = _.get(nextMarkers, '0.position', this.getCenterPosition())
     if(typeof nextCenter.lat == "function"){
+			lat = _.get(nextCenter.toJSON(), 'lat', '')
+			lng = _.get(nextCenter.toJSON(), 'lng', '')
       nextCenter = nextCenter.toJSON()
 		}
+		this.setState({ deliveryAddress: deliveryAddress, reload: !this.state.reload })
+		this.props.getDeliveryAddress({deliveryAddress: deliveryAddress, lat: lat, lng: lng })
 		this.handleMapCenterChanged(nextCenter)
 		let options = this.state.options
 		options.center = nextCenter
@@ -171,47 +193,63 @@ class MapLayers extends Component {
 	}
 
 	onChangeInput = (value) => {
-		this.props.onChangeAddress(value.target.value)
-		this.onPlacesChanged()
+		this.props.onChangeAddress(value)
+	}
+
+	mouseInAddress = () => {
+		this.props.getMouseInOutAddress(false)
+	}
+
+	mouseOutAddress = () => {
+		this.props.getMouseInOutAddress(true)
 	}
 
 	render() {
 		let options = this.getOptions()
-		let { deliveryAddress } = this.props
+		let { orderDetail } = this.props
+		let deliveryAddress = _.get(this.props, 'order.deliveryAddress', '')
 		return ( 
 			<GoogleMap {...options} ref={(ref) => { this.setRefMap(ref) }} >
 				{this.renderMarkerCenter()}
-				{/* {this.props.children} */}
-				<SearchBox
-					controlPosition={google.maps.ControlPosition.LEFT_TOP}
-					bounds = {this.bounds}
-					onPlacesChanged={() => this.onPlacesChanged()}
-					ref={(ref) => { this.ref.searchBox = ref }}
-				>
-				<Input 
-					type="text"
-					placeholder="Địa chỉ giao hàng"
-					// value={deliveryAddress}
-					onChange={this.onChangeInput}
-					style={{
-						position: 'absolute',
-						boxSizing: `groove-box`,
-						border: `1px groove transparent`,
-						width: `110%`,
-						height: `40px`,
-						marginTop: "0px",
-						zIndex: 1,
-						backgroundColor: 'white',
-						marginLeft: "-10px",
-						padding: `0 12px 12px 12px`,
-						borderRadius: `3px`,
-						boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-						fontSize: `14px`,
-						outline: `none`,
-						textOverflow: `ellipses`,
-					}}
-				/>
-			</SearchBox>
+				{
+					orderDetail ? "" 
+					:	<SearchBox
+							controlPosition={google.maps.ControlPosition.LEFT_TOP}
+							bounds = {this.bounds}
+							onPlacesChanged={() => this.onPlacesChanged()}
+							ref={(ref) => { this.ref.searchBox = ref }}
+						>
+							<TextField
+								fullWidth
+								validate={this.validate.required}
+								name="deliveryAddress"
+								onMouseMove={this.mouseInAddress}
+								onMouseOut={this.mouseOutAddress}
+								defaultValue={this.state.deliveryAddress || deliveryAddress}
+								onChange={this.onChangeInput}
+								label={I18n.t(`Input.order.deliveryAddress`)}
+								placeholder=""
+								style={{
+									position: 'absolute',
+									boxSizing: `groove-box`,
+									border: `1px groove transparent`,
+									width: `110%`,
+									height: `70px`,
+									marginTop: "0px",
+									zIndex: 1,
+									backgroundColor: 'white',
+									padding: `0 12px 12px 12px`,
+									borderRadius: `3px`,
+									boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+									fontSize: `14px`,
+									outline: `none`,
+									textOverflow: `ellipses`,
+									marginBottom: "20px",
+								}}
+							/>
+						</SearchBox>
+				}
+					
 			</GoogleMap>
 		)
 	}

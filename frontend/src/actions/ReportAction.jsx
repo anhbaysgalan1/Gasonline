@@ -11,6 +11,11 @@ class ReportAction extends BaseAction {
         url: '/api/reports/invoice',
         type: 'Report.invoices'
       },
+      exportInvoices: {
+        method: 'get',
+        url: '/api/reports/invoice',
+        type: 'Report.export_invoices'
+      },
     }
   }
 }

@@ -4,7 +4,7 @@ import {Button, Grid, InputAdornment, Icon} from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faYenSign} from '@fortawesome/free-solid-svg-icons';
-import {Form, TextField, Validation} from 'components/Forms';
+import {Form, TextField, Validation, MoneyField} from 'components/Forms';
 import PaperFade from "components/Main/PaperFade";
 import {BaseView} from 'views/BaseView';
 import {renderCustomerFlagRadio, renderCustomerTypeRadio, renderPaymentTermSelectField} from './components';
@@ -47,11 +47,23 @@ class Create extends BaseView {
     this.validate = {
       phone: [
         Validation.required(I18n.t("Validate.required.base")),
-        Validation.maxLength(12, I18n.t("Validate.phone.maxLength")),
+        Validation.maxLength(13, I18n.t("Validate.phone.maxLength")),
       ],
       date: [
         Validation.required(I18n.t("Validate.required.base")),
         Validation.checkDateTime(minDate, I18n.t("Validate.dateInvalid"), I18n.t("Validate.minDate"))
+      ],
+      code: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
+      ],
+      name: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
+      ],
+      address: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ]
     };
   }
@@ -64,6 +76,30 @@ class Create extends BaseView {
     }
   }
 
+  phoneFormatter = (number) => {
+    number = number.replace(/[^\d]/g, '')
+    if (number.length == 4) {
+       number = number.replace(/(\d{4})/, "$1")
+    } else if (number.length == 5) {
+       number = number.replace(/(\d{4})(\d{1})/, "$1-$2")
+    } else if (number.length == 6) {
+       number = number.replace(/(\d{4})(\d{2})/, "$1-$2")
+    } else if (number.length == 7) {
+       number = number.replace(/(\d{4})(\d{3})/, "$1-$2")
+    } else if (number.length == 8) {
+       number = number.replace(/(\d{4})(\d{3})(\d{1})/, "$1-$2-$3")
+    } else if (number.length == 9) {
+       number = number.replace(/(\d{4})(\d{3})(\d{2})/, "$1-$2-$3")
+    } else if (number.length == 10) {
+       number = number.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3")
+    } else if (number.length == 11) {
+       number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    } else if (number.length > 11) {
+       number = number.substring(0, 11)
+       number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    }
+    return number
+ }
   cancel = () => {
     this.goto('/customers')
   }
@@ -81,19 +117,22 @@ class Create extends BaseView {
                 fullWidth
                 label={I18n.t("Input.customer.code")}
                 name="code"
-                validate={[Validation.required(I18n.t("Validate.required.base"))]}
+                validate={this.validate.code}
+                onKeyDown={(e) => {
+                  if ([" ",].indexOf(e.key) >= 0) {
+                     e.preventDefault()
+                  }
+                }}
               />
             </Grid>
-
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <TextField
                 fullWidth
                 label={I18n.t("Input.customer.name")}
                 name="name"
-                validate={[Validation.required(I18n.t("Validate.required.base"))]}
+                validate={this.validate.name}
               />
             </Grid>
-
             <Grid item xs={12} sm={12} md={3} lg={3}>
               {renderPaymentTermSelectField()}
             </Grid>
@@ -104,25 +143,23 @@ class Create extends BaseView {
                 label={I18n.t("Input.phone")}
                 name="phone"
                 validate={this.validate.phone}
-                formatData={this.formatData}
+                formatData={this.phoneFormatter}
               />
             </Grid>
-
             <Grid item xs={12} sm={12} md={8} lg={6}>
               <TextField
                 fullWidth
                 label={I18n.t("Input.address")}
                 name="address"
-                validate={[Validation.required(I18n.t("Validate.required.base"))]}
+                validate={this.validate.address}
               />
             </Grid>
-
             <Grid item xs={12} lg={3}>
-              <TextField
+              <MoneyField
                 fullWidth
                 name="extraPrice"
+                disabled={showCustomerFlag}
                 validate={[Validation.required(I18n.t("Validate.required.base"))]}
-                formatData={this.formatData}
                 className={classes.withoutLabel}
                 InputProps={{
                   startAdornment:
@@ -141,14 +178,9 @@ class Create extends BaseView {
             <Grid item xs={12} lg={6} className={classes.radioGroup}>
               {renderCustomerTypeRadio(1, false, this.onChangeCustomerType)}
             </Grid>
-
-            {showCustomerFlag ?
-              <Grid item xs={12} lg={6} className={classes.radioGroup}>
-                {renderCustomerFlagRadio()}
-              </Grid>
-              : ''
-            }
-           
+            <Grid item xs={12} lg={6} className={classes.radioGroup}>
+              {showCustomerFlag ? renderCustomerFlagRadio() : '' }
+            </Grid>
           </Grid>
           <Grid item xs={12} container direction="row" justify="flex-end" alignItems="flex-end" spacing={2}>
             <Grid item>

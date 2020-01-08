@@ -32,7 +32,8 @@ class Create extends BaseContainer {
     for (let fuelType in values.capacity) {
       let fuelTypeCapacity = values.capacity[fuelType]
       let fuelTypeRemain = values.remain[fuelType] || 0
-      if (fuelTypeCapacity < fuelTypeRemain) {
+
+      if (fuelTypeCapacity - fuelTypeRemain < 0) {
         isError = true
       }
       if (!values.remain[fuelType]) {

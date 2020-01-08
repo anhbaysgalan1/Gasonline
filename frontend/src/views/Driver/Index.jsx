@@ -27,24 +27,24 @@ class Index extends BaseView {
         {
           name: 'code',
           title: I18n.t('Table.driver.code'),
-          width: 175
+          width: 200
         },
         {
           name: 'fullName',
           title: I18n.t('Table.driver.name'),
-          width: 275
+          width: 200
         },
         {
           name: 'email',
           title: I18n.t('Table.email'),
-          width: 275
+          width: 200
         },
         {
           name: 'card',
           title: I18n.t('Table.driver.cardNumber'),
           filterable: false,
           sortable: false,
-          width: 275,
+          width: 350,
           formatterComponent: (data) => {
             return this.customCardNumColumn(data)
           }
@@ -54,7 +54,7 @@ class Index extends BaseView {
           title: I18n.t('Table.action'),
           filterable: false,
           sortable: false,
-          width: 175,
+          width: 150,
           formatterComponent: (data) => {
             return this.renderActionsColumn(data)
           }
@@ -82,7 +82,7 @@ class Index extends BaseView {
     let fuelNumber = this.getData(driverCards, 'fuelNumber', 'N/A');
 
     return (
-      <ul>
+      <ul style = {{paddingLeft:"15px"}}>
         <li>{I18n.t('Label.driver.fuelNumber')}: {fuelNumber}</li>
         <li>{I18n.t('Label.driver.deliverNumber')}: {deliverNumber}</li>
       </ul>

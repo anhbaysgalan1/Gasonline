@@ -18,38 +18,38 @@ const customerTypes = [
 ]
 
 const customerPaymentTerms = [
-  {value: '15', text: '15'},
-  {value: '20', text: '20'},
-  {value: '25', text: '25'},
+  {value: '15', text: '15日'},
+  {value: '20', text: '20日'},
+  {value: '25', text: '25日'},
   {value: 'end', text: I18n.t("Label.endMonth")},
-  {value: '1', text: '1'},
-  {value: '2', text: '2'},
-  {value: '3', text: '3'},
-  {value: '4', text: '4'},
-  {value: '5', text: '5'},
-  {value: '6', text: '6'},
-  {value: '7', text: '7'},
-  {value: '8', text: '8'},
-  {value: '9', text: '9'},
-  {value: '10', text: '10'},
-  {value: '11', text: '11'},
-  {value: '12', text: '12'},
-  {value: '13', text: '13'},
-  {value: '14', text: '14'},
-  {value: '16', text: '16'},
-  {value: '17', text: '17'},
-  {value: '18', text: '18'},
-  {value: '19', text: '19'},
-  {value: '21', text: '21'},
-  {value: '22', text: '22'},
-  {value: '23', text: '23'},
-  {value: '24', text: '24'},
-  {value: '26', text: '26'},
-  {value: '27', text: '27'},
-  {value: '28', text: '28'},
-  {value: '29', text: '29'},
-  {value: '30', text: '30'},
-  {value: '31', text: '31'}
+  {value: '1', text: '1日'},
+  {value: '2', text: '2日'},
+  {value: '3', text: '3日'},
+  {value: '4', text: '4日'},
+  {value: '5', text: '5日'},
+  {value: '6', text: '6日'},
+  {value: '7', text: '7日'},
+  {value: '8', text: '8日'},
+  {value: '9', text: '9日'},
+  {value: '10', text: '10日'},
+  {value: '11', text: '11日'},
+  {value: '12', text: '12日'},
+  {value: '13', text: '13日'},
+  {value: '14', text: '14日'},
+  {value: '16', text: '16日'},
+  {value: '17', text: '17日'},
+  {value: '18', text: '18日'},
+  {value: '19', text: '19日'},
+  {value: '21', text: '21日'},
+  {value: '22', text: '22日'},
+  {value: '23', text: '23日'},
+  {value: '24', text: '24日'},
+  {value: '26', text: '26日'},
+  {value: '27', text: '27日'},
+  {value: '28', text: '28日'},
+  {value: '29', text: '29日'},
+  {value: '30', text: '30日'},
+  {value: '31', text: '31日'}
 ]
 
 const dataTypes = [
@@ -57,10 +57,11 @@ const dataTypes = [
 ]
 
 const dateFormatBackend = "YYYY-MM-DD";
-const dateFormatDefault = "DD/MM/YYYY";
-const dateTimeFormatDefault = "DD/MM/YYYY HH:mm:ss";
+const dateFormatDefault = "YYYY-MM-DD";
+const dateTimeFormatDefault = "YYYY-MM-DD HH:mm:ss";
 const monthFormatBackend = "YYYY-MM";
-const monthFormatDefault = "MM/YYYY";
+const monthFormatDefault = "YYYY/MM";
+const formatDateField = 'YYYY/MM/DD';
 
 const deliveryTime = [
   {key: "1", value: "1", label: I18n.t("Common.deliveryTime.morning")},
@@ -120,6 +121,7 @@ export {
   dateFormatDefault,
   dateTimeFormatDefault,
   deliveryTime,
+  formatDateField,
   fuelProducts,
   httpStatus,
   locale,

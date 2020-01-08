@@ -65,12 +65,10 @@ class OrdersPopup extends BaseView {
 
   onSubmit() {
     if (!this.selectedIds.length) {
-      let {validateBeforeSubmit} = this.props;
       this.hide()
-      validateBeforeSubmit('No orders selected')
+      this.props.validateBeforeSubmit(I18n.t('Message.success.noOrdersSelected') )
       return
     }
-
     const {onSubmit, orders, date} = this.props;
     const {truck} = this.state;
     onSubmit({

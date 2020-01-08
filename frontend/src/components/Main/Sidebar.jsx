@@ -24,8 +24,11 @@ const styles = theme => ({
       transition: "all 300ms linear",
   },
   listItemTextPrimary: {
-      fontSize: '14px',
+      fontSize: '16px',
       fontWeight: 300,
+      [theme.breakpoints.up('sm')]: {
+        fontWeight: 400,
+      },
       color: '#000'
   },
   listItemTextRoot: {
@@ -42,6 +45,9 @@ const styles = theme => ({
   },
   listItemTextPrimaryActive: {
       fontWeight: 300,
+      [theme.breakpoints.up('sm')]: {
+        fontWeight: 300,
+      },
       color: '#fff'
   },
   listItemIconActive: {

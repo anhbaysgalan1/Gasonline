@@ -7,9 +7,12 @@ import {BaseView} from "views/BaseView";
 import Map from './components/Map'
 import FuelsForm from "./components/FuelsForm";
 import PaperFade from "components/Main/PaperFade";
-import {deliveryTime} from "config/constant";
+import {dateFormatDefault, deliveryTime} from "config/constant";
 import {I18n} from "helpers/I18n";
 import moment from "moment";
+import ReactGoogleMap from './ReactGoogleMap/ReactGoogleMap'
+
+moment.defaultFormat = dateFormatDefault;
 
 const styles = theme => ({
   mapWrapper: {
@@ -41,6 +44,9 @@ const styles = theme => ({
 class Detail extends BaseView {
   constructor(props) {
     super(props);
+    this.state = {
+      deliveryAddress: ''
+    }
   }
 
   mapDeliveryTimeValue(order) {
@@ -57,7 +63,7 @@ class Detail extends BaseView {
     const {classes} = this.props;
     let driverName = this.getData(order, "driver.fullName", "");
 
-    switch (order.status) {
+    switch (this.getData(order, "status", '')) {
       case 1:
         return (
           <Chip
@@ -96,10 +102,18 @@ class Detail extends BaseView {
     localStorage.removeItem("backDivideOrder");
   }
 
+  onChangeAddress = () => {
+
+  }
+
+  getDeliveryAddress = () => {
+  }
+
+
   render() {
     const {classes, order} = this.props;
     let backDivideOrder = localStorage.getItem("backDivideOrder");
-    console.log("backDivideOrder", backDivideOrder);
+    let { deliveryAddress } = this.state
     return (
       <PaperFade>
         <Form className={classes.form}>
@@ -113,7 +127,6 @@ class Detail extends BaseView {
               />
               {this.renderChip(order)}
             </Grid>
-
             <Grid item xs={12} lg={9}>
               <PaperFade className={classes.paper}>
                 <Typography variant="h6">
@@ -135,7 +148,6 @@ class Detail extends BaseView {
                       }}
                     />
                   </Grid>
-
                   <Grid item xs={12} lg={12}>
                     <TextField
                       fullWidth
@@ -147,49 +159,45 @@ class Detail extends BaseView {
                       }}
                     />
                   </Grid>
-
                   <Grid item xs={12} lg={12}>
-                    <div className={classes.mapWrapper}><Map/></div>
+                    <ReactGoogleMap
+                      order={order}
+                      orderDetail="1"
+                      onChangeAddress={this.onChangeAddress}
+                      deliveryAddress={deliveryAddress}
+                      getDeliveryAddress={this.getDeliveryAddress}
+                    />  
                   </Grid>
-
                   <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       label={I18n.t("Input.area.code")}
                       name="order.area"
                       value={
-                        this.getData(order, "area.code", null) +
-                        " -- " +
-                        this.getData(order, "area.name", null)
+                        this.getData(order, "area.code", null) + " -- " + this.getData(order, "area.name", null)
                       }
                       InputProps={{
                         readOnly: true
                       }}
                     />
                   </Grid>
-
                   <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       label={I18n.t(`Input.order.orderDate`)}
                       name="order.orderDate"
-                      value={moment(
-                        this.getData(order, "orderDate", moment())
-                      ).format("DD/MM/YYYY")}
+                      value={moment(this.getData(order, "insert.when", null)).format()}
                       InputProps={{
                         readOnly: true
                       }}
                     />
                   </Grid>
-
                   <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       label={I18n.t(`Input.order.deliveryDate`)}
                       name="order.deliveryDate"
-                      value={moment(
-                        this.getData(order, "deliveryDate", null)
-                      ).format("DD/MM/YYYY")}
+                      value={moment(this.getData(order, "deliveryDate", null)).format()}
                       InputProps={{
                         readOnly: true
                       }}

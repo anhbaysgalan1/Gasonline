@@ -19,8 +19,8 @@ class FuelsForm extends BaseView {
   }
 
   renderForm(vehicle, type) {
-    const {readOnly} = this.props;
-    let fuels = this.getData(vehicle, type, []);
+    const { readOnly, noRequired } = this.props
+    let fuels = this.getData(vehicle, type, [])
     return (
       <React.Fragment>
         {fuels ?
@@ -33,8 +33,7 @@ class FuelsForm extends BaseView {
                   label={I18n.t(`Label.products.${fuel}`)}
                   name={`${type}.${fuel}`} //remaining or capacity
                   value={fuels[fuel]}
-                  formatData={this.formatData}
-                  validate={this.validate.fuel}
+                  validate={ !noRequired ? this.validate.fuel : []}
                   InputProps={{
                     disabled: readOnly,
                     readOnly: readOnly

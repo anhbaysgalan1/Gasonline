@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
+import {Button, Grid, Icon} from '@material-ui/core';
+import PaperFade from "components/Main/PaperFade";
 import {Form, TextField, Validation} from 'components/Forms';
 import {BaseView} from 'views/BaseView';
 import {I18n} from 'helpers/I18n';
-import {Button, Grid, Icon} from '@material-ui/core';
-import PaperFade from "components/Main/PaperFade";
-import { withRouter } from 'react-router-dom';
-
 
 const styles = theme => ({
   button: {
@@ -29,11 +28,9 @@ class Create extends BaseView {
       rePassword: ""
     }
     this.validate = {
-      code: [
-        Validation.required(I18n.t("Validate.required.base"))
-      ],
       name: [
         Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ],
       cardNum: [
         Validation.required(I18n.t("Validate.required.base")),
@@ -41,7 +38,7 @@ class Create extends BaseView {
       ],
       phone: [
         Validation.required(I18n.t("Validate.required.base")),
-        Validation.maxLength(12, I18n.t("Validate.phone.maxLength")),
+        Validation.maxLength(13, I18n.t("Validate.phone.maxLength")),
         Validation.minLength(10, I18n.t("Validate.phone.minLength")),
       ],
       password: [
@@ -49,17 +46,46 @@ class Create extends BaseView {
       ],
       rePassword: [
         Validation.required(I18n.t("Validate.required.base")),
+      ],
+      email: [
+        Validation.required(I18n.t("Validate.required.base")),
+        Validation.validateEmail(I18n.t("Validate.email.format"))
       ]
     };
   }
 
   onChange(value, name) {
     this.confirmPass[name] = value;
-    if (String(this.confirmPass.password) === String(this.confirmPass.rePassword)) {
-      this.setState({isError: false});
-    } else {
+    if (this.confirmPass.password && this.confirmPass.rePassword && this.confirmPass.password !== this.confirmPass.rePassword) {
       this.setState({isError: true});
+    } else {
+      this.setState({isError: false});
     }
+  }
+
+  phoneFormatter = (number) => {
+    number = number.replace(/[^\d]/g, '')
+    if (number.length == 4) {
+      number = number.replace(/(\d{4})/, "$1")
+    } else if (number.length == 5) {
+      number = number.replace(/(\d{4})(\d{1})/, "$1-$2")
+    } else if (number.length == 6) {
+      number = number.replace(/(\d{4})(\d{2})/, "$1-$2")
+    } else if (number.length == 7) {
+      number = number.replace(/(\d{4})(\d{3})/, "$1-$2")
+    } else if (number.length == 8) {
+      number = number.replace(/(\d{4})(\d{3})(\d{1})/, "$1-$2-$3")
+    } else if (number.length == 9) {
+      number = number.replace(/(\d{4})(\d{3})(\d{2})/, "$1-$2-$3")
+    } else if (number.length == 10) {
+      number = number.replace(/(\d{4})(\d{3})(\d{3})/, "$1-$2-$3")
+    } else if (number.length == 11) {
+      number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    } else if (number.length > 11) {
+      number = number.substring(0, 11)
+      number = number.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+    }
+    return number
   }
 
   render() {
@@ -91,10 +117,10 @@ class Create extends BaseView {
             <Grid item xs={12} lg={6}>
               <TextField
                 fullWidth
-                type="email"
+                type="text"
                 label={I18n.t("Input.email")}
                 name="email"
-                validate={this.validate.name}
+                validate={this.validate.email}
               />
             </Grid>
 
@@ -105,7 +131,7 @@ class Create extends BaseView {
                 label={I18n.t("Input.phone")}
                 name="phone"
                 validate={this.validate.phone}
-                formatData={this.formatData}
+                formatData={this.phoneFormatter}
               />
             </Grid>
 
@@ -116,7 +142,6 @@ class Create extends BaseView {
                 label={I18n.t("Label.driver.fuelNumber")}
                 name="driverCards.fuelNumber"
                 validate={this.validate.cardNum}
-                formatData={this.formatData}
               />
             </Grid>
 
@@ -127,7 +152,6 @@ class Create extends BaseView {
                 label={I18n.t("Label.driver.deliverNumber")}
                 name="driverCards.deliverNumber"
                 validate={this.validate.cardNum}
-                formatData={this.formatData}
               />
             </Grid>
 
@@ -164,9 +188,10 @@ class Create extends BaseView {
               />
             </Grid>
           </Grid>
+
           <Grid item xs={12} container direction="row" justify="flex-end" alignItems="flex-end" spacing={2}>
             <Grid item>
-              <Button size='small' variant="contained" color="primary" onClick={() => this.goto('/drivers')} >
+              <Button size='small' variant="contained" color="primary" onClick={() => this.goto('/drivers')}>
                 <Icon className={classes.sizeIcon}>arrow_back_ios</Icon>{I18n.t("Button.back")}
               </Button>
               <Button size='small' type="submit" variant="contained" color="primary" className={classes.button}>

@@ -65,12 +65,20 @@ const TableCell = ({cell, ...restProps}) => {
     <Table.Cell
       {...restProps}
       style={{
+        whiteSpace: "inherit",
         height: '43px',
         paddingTop: '5px',
         paddingBottom: '5px'
       }}
     />
   );
+}
+
+//dùng để xét css cho header
+const CustomTableHeaderCell = ({ classes, ...restProps }) => {
+  restProps.value = restProps.column.title || restProps.column.name
+  restProps.style = restProps.column.style
+  return  <TableHeaderRow.Cell {...restProps} style={{ whiteSpace: 'inherit' }} /> 
 }
 
 
@@ -104,10 +112,31 @@ const TableRow = ({row, ...restProps}) => {
       {...restProps}
       style={{
         height: '59px',
+        whiteSpace: 'inherit'
       }}
     />
   );
 }
+
+// const CustomTableRowBase = ({ row, classes, ...restProps }) => {
+//   let style = {}
+//   if (row.style) {
+//     style = row.style
+//   }
+//   return <Table.Row
+//     {...restProps}
+//     className={classes.customRow}
+//     style={{
+//       cursor: 'pointer',
+//       whiteSpace: 'normal',
+//       ...style
+//     }}
+//   />
+
+// };
+
+// export const TableRow = withStyles(styles, { name: 'CustomTableRow' })(CustomTableRowBase);
+
 
 const filterByType = {
   text: {
@@ -175,7 +204,7 @@ const FilterIcon = ({type, ...restProps}) => {
   return <TableFilterRow.Icon type={type} {...restProps} />;
 };
 
-const Root = props => <Grid.Root {...props} style={{minHeight: 'calc(100vh - 125px)'}}/>;
+const Root = props => <Grid.Root className='Grid-Root-Table' {...props} style={{minHeight: 'calc(100vh - 125px)'}}/>;
 const ToolbarRoot = (tableProps, tableState) => (props) => {
   let leftChildren = ""
   let rightChildren = ""
@@ -616,6 +645,7 @@ class GridTable extends PureComponent {
       <TableFilterRow
         key="TableFilterRow"
         // showFilterSelector
+
         iconComponent={FilterIcon} //icon
         messages={{}}
       />
@@ -723,7 +753,7 @@ class GridTable extends PureComponent {
   }
 
   renderTable() {
-    const {rows, classes, className, filterHiding} = this.props;
+    const {rows, classes, className, filterHiding, pagingHiding} = this.props;
     let _rows = this.addNoColumn(rows);
     if (!this.columns) return '';
 
@@ -756,10 +786,16 @@ class GridTable extends PureComponent {
           {this.renderSelection()}
           {this.renderTableColumnUtility()}
 
-          <TableHeaderRow showSortingControls/>
+          <TableHeaderRow 
+            showSortingControls
+            // messages={{
+            //   sortingHint: I18n.t("Table.header.sorting")
+            // }}
+            cellComponent={CustomTableHeaderCell}
+          />
 
           {this.renderFixedColumns()}
-          {this.renderPaging()}
+          {!pagingHiding && this.renderPaging()}
           {this.renderToolbar()}
         </Grid>
       </div>

@@ -2,13 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import withStyles from '@material-ui/core/styles/withStyles'
+import { Button, Tooltip } from '@material-ui/core'
 import BaseView from 'views/BaseView'
 import PaperFade from 'components/Main/PaperFade'
-import { I18n } from 'helpers/I18n';
-import { Button, Tooltip } from '@material-ui/core'
-import moment from 'moment';
-import {dateFormatBackend} from 'config/constant';
-moment.defaultFormat = dateFormatBackend;
+import { I18n } from 'helpers/I18n'
+import moment from 'moment'
 
 const GridTable = React.lazy(() => import('components/Table/GridTable'))
 const styles = theme => ({
@@ -20,31 +18,16 @@ const styles = theme => ({
     whiteSpace: 'normal',
   },
   gridTable: {
-    '& .MuiToolbar-root': {
-      display: 'none !important'
-    },
-
     '& .Grid-Root-Table': {
-      minHeight: 'calc(100vh - 355px) !important',
-      maxHeight: 'calc(100vh - 355px) !important',
+      minHeight: 'calc(100vh - 311px) !important',
+      maxHeight: 'calc(100vh - 311px) !important',
       [theme.breakpoints.down('sm')] : {
         minHeight: 'calc(100vh - 360px) !important',
       },
       ['@media (min-width:601px) and (max-width:959px)']: {
-        minHeight: 'calc(100vh - 435px) !important',
+        minHeight: 'calc(100vh - 391px) !important',
       }
     }
-  },
-  gridTableFooter: {
-    display: 'flex',
-    flex: 'none',
-    position: 'relative',
-    alignItems: 'center',
-    minHeight: '55px',
-  },
-  gridTableFooterButtonRight: {
-    right: '0px',
-    position: 'absolute'
   }
 });
 
@@ -93,19 +76,77 @@ class IndexSky extends BaseView {
         },
         {
           name: 'amount',
-          title: I18n.t('Label.amount'),
+          title: I18n.t('Table.totalAmount'),
           formatterComponent: (data) => this.renderDataField(data, 'amount') || 0,
           sortable: false
         },
         {
-          name: 'insurance',
-          title: I18n.t('Label.insurance'),
+          name: 'customer._id',
+          title: I18n.t('Table.action'),
           filterable: false,
           sortable: false,
-          formatterComponent: (data) => this.renderDataField(data, 'insurance') || ''
+          formatterComponent: (data) => {
+            return this.renderActionsColumn(data)
+          }
         },
       ]
     }
+    this.ConfirmDeleteDialog = null;
+    this.toolbarActions = [];
+
+    this.renderToolbarActions = this.renderToolbarActions.bind(this)
+    this.renderSelectedActions = this.renderSelectedActions.bind(this)
+  }
+
+  viewReport = (data) =>{
+    let {invoiceDate} = this.props
+    let startDate = moment(invoiceDate.startDate).format("YYYYMMDD")
+    let endDate = moment(invoiceDate.endtDate).format("YYYYMMDD")
+    let customerId = data.row.customer._id
+
+    let url = window.config.API_HOST + 
+      `/api/authWithSession?token=${localStorage.getItem("token")}&redirect=/pdf/invoice-${customerId}-${startDate}-${endDate}.pdf`
+    window.open(url);
+  }
+
+  viewReportAll = () => {
+    let {type, paymentTerm} = this.props.filters || {},
+      {invoiceDate} = this.props;
+
+    if(!invoiceDate.startDate || !invoiceDate.endDate) return;
+
+    let startDate = moment(invoiceDate.startDate).format("YYYYMMDD")
+    let endDate = moment(invoiceDate.endtDate).format("YYYYMMDD")
+
+    let url = window.config.API_HOST + 
+      `/api/authWithSession?token=${localStorage.getItem("token")}&redirect=/pdf/invoiceall-${type}-${startDate}-${endDate}-${paymentTerm}.pdf`
+    window.open(url);
+  }
+  
+  renderActionsColumn(data){
+    return (
+      <Button color='primary' variant='outlined' onClick={() => this.viewReport(data)}>
+        {I18n.t('Button.confirm')}
+      </Button>
+    )
+  }
+
+  renderToolbarActions() {
+    let {month, paymentTerm} = this.props.filters || {}
+    
+    return (
+      <Tooltip title={I18n.t("Tooltip.print")} key="print">
+        <span>
+          <Button
+            disabled={!month && !paymentTerm}
+            onClick={this.viewReportAll} 
+            color='primary' 
+            variant='contained' >
+            {I18n.t("Button.print")}
+          </Button>
+        </span>
+      </Tooltip>
+    )
   }
 
   addIdToData () {
@@ -117,59 +158,27 @@ class IndexSky extends BaseView {
     )
   }
 
-  renderToolbarActions = () => {
-    const {startDate, endDate} = this.props.invoiceDate || {},
-      {classes} = this.props;
-    return (
-      <Tooltip title={I18n.t("Tooltip.exportExcel")} key="exportExcel">
-        <span className={classes.gridTableFooterButtonRight}>
-          <Button
-            disabled={!startDate || !endDate} 
-            color='primary' variant='contained' onClick={this.exportExcel}>
-            {I18n.t("Button.exportExcel")}
-          </Button>
-        </span>
-      </Tooltip>
-    )
-  }
-
-  exportExcel = (e) =>{
-    e.preventDefault();
-    let {startDate, endDate} = this.props.invoiceDate || {};
-    
-    if(!startDate || !endDate) return;
-
-    startDate = moment(startDate).format("YYYYMMDD")
-    endDate = moment(endDate).format("YYYYMMDD")
-
-    this.props.onExportFile({
-      startDate, endDate, type: '1'
-    })
-  }
-
   render() {
-    const { classes, onRefTable } = this.props;
-    let  data = this.addIdToData();
-
+    const { classes, onRefTable } = this.props,
+      data = this.addIdToData();
+      
     return (
       <PaperFade showLoading={true}>
         <GridTable
-          id="CustomersOrderIndexSky"
+          id="IndexSky"
           className={classes.gridTable}
-          onFetchData={()=>{}}
+          onFetchData={() => {}}
           onRefTable={onRefTable}
           columns={this.table.columns}
-          rows={data}
-          totalCount={data.length}
-          pageSize={data.length}
+          rows={data || []}
+          totalCount={(data || []).length}
+          pageSize={(data || []).length}
           showCheckboxColumn={false}
           height="auto"
           filterHiding={true}
           pagingHiding={true}
+          tableActions={this.renderToolbarActions}
         />
-        <div className={classes.gridTableFooter}>
-          {this.renderToolbarActions()}
-        </div>
       </PaperFade>
     )
   }

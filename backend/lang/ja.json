@@ -26,6 +26,7 @@
     "Incorrect_Password": "パスワードが間違っています。パスワードを忘れた場合は、管理者に連絡してください。",
     "Export_Fuels": "エラーが発生しました %0",
     "Import_Fuels": "エラーが発生しました %0",
+    "ImportOverCapacity": "積込数量は容積より大きい値を入力できません。",
     "Not_Enough_Fuels": "%0の残量が足りないので、配達できません。",
     "Old_Pw_Not_Match": "現在のパスワードが正しくありません",
     "Pw_Len_Warning": "パスワードには %0文字~ %1文字に入力してください ",

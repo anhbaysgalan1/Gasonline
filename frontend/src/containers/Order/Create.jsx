@@ -42,7 +42,7 @@ class Create extends BaseContainer {
   createOrder(values) {
     const {checkbox, ...order} = values;
     console.log('values', values)
-    console.log('order', order)
+    console.log('order >>>>>> ', order)
     this.props.dispatch(OrderAction.create(order))
       .then(data => {
         if (!data.error) {
@@ -65,7 +65,6 @@ class Create extends BaseContainer {
 }
 
 const mapStateToProps = state => {
-  // console.log("state on  create order", state)
   return {
     customers: selector(state, 'customer.list.list_data', []),
     areas: selector(state, 'area.list.list_data', [])

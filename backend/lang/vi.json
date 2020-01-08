@@ -22,6 +22,7 @@
     "Email_Invalid": "Địa chỉ email không hợp lệ (%0)",
     "Load_Detail_Failed": "Lấy dữ liệu chi tiết xảy ra lỗi: %0",
     "Load_Lists_Failed": "Lấy danh sách xảy ra lỗi: %0",
+    "ImportOverCapacity": "Lượng dầu đổ vào không được quá dung tích còn lại của xe",
     "New_Old_Pw_Must_Different": "Mật khẩu mới phải khác mật khẩu cũ",
     "Incorrect_Password": "Mật khẩu không chính xác. Nếu bạn đã quên mật khẩu, vui lòng liên hệ quản trị viên để được trợ giúp.",
     "Export_Fuels": "Xuất nhiên liệu từ xe bồn xảy ra lỗi: %0",

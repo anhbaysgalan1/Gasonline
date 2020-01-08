@@ -10,9 +10,12 @@ import DateTimeField from 'components/Forms/DateTimeField';
 import OrdersPopup from './components/OrdersPopup';
 import ConfirmDialog from './components/ConfirmDialog';
 import Card from './components/Card';
+import {dateFormatBackend, formatDateField} from "config/constant";
 import {I18n} from 'helpers/I18n';
 import Utils from 'helpers/utility';
 import moment from 'moment';
+
+moment.defaultFormat = formatDateField;
 
 const styles = theme => ({});
 
@@ -45,7 +48,8 @@ class Index extends BaseView {
       this.setState({
         params: params,
         date: new Date(params.deliveryDate)
-      });
+      })
+      this.props.loadData(moment(new Date(params.deliveryDate)).format(dateFormatBackend))
       this.props.onNotifyHaveParams(params.id);
     }
   }
@@ -55,8 +59,7 @@ class Index extends BaseView {
   }
 
   onChangeDate(value) {
-    const {loadData} = this.props;
-    loadData(moment(value).format('YYYY-MM-DD'))
+    this.props.loadData(moment(value).format(dateFormatBackend))
     this.setState({date: value});
   }
 
@@ -96,7 +99,7 @@ class Index extends BaseView {
   //---ORDERS POPUP---
   renderOrdersPopup(orders, truck, date) {
     let _orders = Utils.filterUndividedOrders(orders);
-    let _date = moment(date).format("DD/MM/YYYY");
+    let _date = moment(date).format();
     let {width, onRefTable, onSubmit, onCancelSelected, validateBeforeSubmit} = this.props;
     let fullScreen = !isWidthUp('md', width);
 
@@ -138,7 +141,7 @@ class Index extends BaseView {
               // fullWidth
               label={I18n.t(`Input.order.deliveryDate`)}
               name="deliveryDate"
-              format="DD/MM/YYYY"
+              format={formatDateField}
               showTime={false}
               autoOk={true}
               onChange={this.onChangeDate}

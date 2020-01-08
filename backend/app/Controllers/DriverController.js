@@ -78,7 +78,7 @@ class Controller extends BaseController {
       ...params,
       ...password
     };
-
+    params = AuthUtil.setFullName(params);
     [err, result] = await to(this.model.insertOne(params));
     if (err) return HttpUtil.internalServerError(res, Utils.localizedText('Errors.create', err.message));
     delete result.__v; // not copy version;
@@ -87,7 +87,31 @@ class Controller extends BaseController {
   }
 
   async update(req, res) {
-    return super.update(req, res)
+    let object = req.object;
+    if (!object) return HttpUtil.badRequest(res, 'Not_Founds.Request_Object')
+
+    let params = HttpUtil.getRequiredParamsFromJson2(req, this.requireParams.update);
+    if (params.error) return HttpUtil.badRequest(res, params.error);
+    params = Utils.getAcceptableFields(params, this.requireParams.update);
+
+    let err, msg;
+    for (let i = 0; i < this.validate.unique.length; i++) {
+      let item = this.validate.unique[i];
+      if (params[item.key] && object[item.key] && params[item.key] !== object[item.key]) {
+        [err, msg] = await to(this.validateUnique(item, params));
+        if (err) return HttpUtil.internalServerError(res, err.message)
+        if (msg !== true) return HttpUtil.unprocessable(res, msg)
+      }
+    }
+
+    delete params._id; // not update _id
+    // validate value input, validate unique, permission ...
+    params = AuthUtil.setFullName(params);
+    let result;
+    [err, result] = await to(this.model.updateOne(object._id, params, {}, req.authUser));
+    if (err) return HttpUtil.internalServerError(res, Utils.localizedText('Errors.update', err.message));
+
+    return HttpUtil.success(res, 'Success.update');
   }
 
   async destroy(req, res) {

@@ -7,7 +7,7 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import ConfirmDialog from 'components/Dialogs/ConfirmDialog';
 import PaperFade from 'components/Main/PaperFade';
 import SelectField, {Option} from 'components/Forms/SelectField';
-import TextField from 'components/Forms/TextField';
+import { TextField, MoneyField } from 'components/Forms/';
 import BaseView from 'views/BaseView'
 import {customerTypes} from 'config/constant';
 import {I18n} from 'helpers/I18n';
@@ -42,7 +42,7 @@ class Index extends BaseView {
           title: I18n.t('Table.no'),
           filterable: false,
           sortable: false,
-          width: 80
+          width: 70
         },
         {
           name: 'code',
@@ -52,24 +52,24 @@ class Index extends BaseView {
         {
           name: 'name',
           title: I18n.t('Table.customer.name'),
-          width: 220,
+          width: 150,
         },
         {
           name: 'phone',
           title: I18n.t('Table.phone'),
-          width: 130
+          width: 150
         },
         {
           name: 'address',
           title: I18n.t('Table.address'),
-          width: 275
+          width: 250
         },
         {
           name: 'type',
           title: I18n.t('Table.customer.type'),
           type: "number",
           defaultFilterOperation: "equal",
-          width: 150,
+          width: 200,
           formatterComponent: (data) => {
             return I18n.t(`Label.customer.mapTypeValue.${data.value}`);
           },
@@ -80,8 +80,9 @@ class Index extends BaseView {
           name: 'extraPrice',
           title: I18n.t('Table.customer.extendPrice'),
           filterable: false,
-          width: 150,
+          width: 120,
           formatterComponent: (data) => {
+
             return this.customUnitPriceColumn(data);
           }
         },
@@ -134,7 +135,7 @@ class Index extends BaseView {
   customUnitPriceColumn(data) {
     const {classes} = this.props;
     return (
-      <TextField
+      <MoneyField
         name="extraPrice"
         value={data.value}
         InputProps={{
@@ -144,10 +145,8 @@ class Index extends BaseView {
           // readOnly: !this.state.isEditing,
           disabled: !this.state.isEditing,
           disableUnderline: !this.state.isEditing,
-
         }}
         onChange={value => this.onChangeUnitPrice(value, data)}
-        formatData={this.formatData}
       />
     )
   }

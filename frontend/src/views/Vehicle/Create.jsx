@@ -33,6 +33,7 @@ class Create extends BaseView {
     this.validate = {
       name: [
         Validation.required(I18n.t("Validate.required.base")),
+        Validation.maxLength(255, I18n.t("Validate.maxLength")),
       ],
       fuel: [
         Validation.required(I18n.t("Validate.required.base")),
@@ -40,7 +41,7 @@ class Create extends BaseView {
     }
   }
 
-  renderFuelField(type, name) {
+  renderFuelField(type, name, noRequired) {
     return (
       <Grid item xs={12} lg={4}>
         <TextField
@@ -48,8 +49,7 @@ class Create extends BaseView {
           type="text"
           label={I18n.t(`Label.products.${name}`)}
           name={`${type}.${name}`}
-          formatData={this.formatData}
-          validate={this.validate.fuel}
+          validate={!noRequired ? this.validate.fuel : []}
         />
       </Grid>
     )
@@ -65,21 +65,19 @@ class Create extends BaseView {
             <Grid item xs={12} lg={4}>
               <TextField
                 fullWidth
-                label={I18n.t("Input.vehicle.name")}
+                label={I18n.t("Table.vehicle.name")}
                 name="name"
                 validate={this.validate.name}
               />
             </Grid>
-
             <Grid item xs={12} lg={4}>
               <TextField
                 fullWidth
-                label={I18n.t("Input.vehicle.licensePlate")}
+                label={I18n.t("Table.vehicle.licensePlate")}
                 name="licensePlate"
                 validate={this.validate.name}
               />
             </Grid>
-
             <Grid item xs={12} lg={4}>
               <SelectField
                 fullWidth
@@ -90,7 +88,6 @@ class Create extends BaseView {
                 {renderDriverSelectField(drivers)}
               </SelectField>
             </Grid>
-
 
             <Grid item xs={12} lg={12}>
               <Typography variant="h6">{I18n.t("Input.vehicle.capacity")}</Typography>
@@ -104,9 +101,9 @@ class Create extends BaseView {
               <Typography variant="h6">{I18n.t("Input.vehicle.remaining")}</Typography>
             </Grid>
 
-            {this.renderFuelField("remain", "kerosene")}
-            {this.renderFuelField("remain", "diesel")}
-            {this.renderFuelField("remain", "gasoline")}
+            {this.renderFuelField("remain", "kerosene", 1)}
+            {this.renderFuelField("remain", "diesel", 1)}
+            {this.renderFuelField("remain", "gasoline", 1)}
 
           </Grid>
           <Grid item xs={12} container direction="row" justify="flex-end" alignItems="flex-end" spacing={2}>

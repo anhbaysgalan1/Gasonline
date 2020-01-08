@@ -33,6 +33,11 @@ const FIELDS = {
     required: true,
     index: true
   },
+  fullName: {
+    type: String,
+    required: true,
+    index: true
+  },
   role: {
     type: String,
     required: true,
@@ -70,9 +75,5 @@ const methods = {
 }
 
 let userSchema = BaseSchema(FIELDS, projection, methods);
-
-userSchema.virtual('fullName').get(function () {
-  return this.firstName + this.lastName;
-})
 
 module.exports = mongoose.model(mTAG, userSchema);

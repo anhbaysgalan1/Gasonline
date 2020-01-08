@@ -9,6 +9,7 @@ import RadioGroupField from './RadioGroupField'
 import SelectField from './SelectField'
 import SwitchField from './SwitchField'
 import TextField from './TextField'
+import MoneyField from './MoneyField'
 import * as Validation from './Validation';
 
 export {
@@ -22,6 +23,7 @@ export {
   SelectField,
   SwitchField,
   TextField,
+  MoneyField,
   connectField,
-  Validation
+  Validation 
 }

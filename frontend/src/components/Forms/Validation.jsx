@@ -1,7 +1,16 @@
 export const required = (message = "required!") => value => {
-  if (!value || value.length === 0) {
+  if(value && value.length){
+    value = value.toString()
+    value = value.replace(/ /g, '')
+    if(value == ' ')
+      return message
+  }
+  if (!value || value.length === 0 || value === '') {
     return message
   }
+  // if (!value || value.length === 0) {
+  //   return message
+  // }
 }
 // eslint-disable-next-line
 export const min = (minValue, message = "The minimum value is ${arguments[0]}") => {
@@ -93,6 +102,10 @@ export const equalPass = (password, message = "Mật khẩu không trùng khớp
   }
 }
 
+export const validateEmail = (message = "Email nhập không đúng định dạng") => value => {
+  if (!String(value).match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)) return message
+}
+
 export const checkDateTime = (minDate, message1 = "Ngày không hợp lệ", message2 = "Nhập ngày lớn hơn ngày tối thiểu ${arguments[0]}") => {
   try {
     // eslint-disable-next-line
@@ -102,7 +115,7 @@ export const checkDateTime = (minDate, message1 = "Ngày không hợp lệ", mes
     console.error("can not build message for maxLength function.")
   }
   return value => {
-    console.log("valid date: ", value)
+    // console.log("valid date: ", value)
     if (typeof value === "object" && !value._isValid) return message1;
     if (new Date(value) < new Date(minDate)) return message2;
   }

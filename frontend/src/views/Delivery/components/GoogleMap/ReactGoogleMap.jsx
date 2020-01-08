@@ -23,10 +23,12 @@ class GetMap extends BaseView {
 	
   render() {
 		let onSearchPlace = this.props.onSearchPlace || (() =>{})
+		const { orders } = this.props
 		return (
 			<MapLayers 
 				options={{ ...this.props }}
 				onSearchPlace={() => onSearchPlace()}
+				orders={orders}
 			>
 			</MapLayers>
 		)

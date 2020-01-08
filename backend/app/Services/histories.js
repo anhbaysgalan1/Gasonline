@@ -10,7 +10,8 @@ const ModelCustomer = require('../Models/Customer');
 const ModelOrder = require('../Models/Order');
 const ModelUser = require('../Models/User');
 const ModelVehicle = require('../Models/Vehicle');
-const {customerTypes, middleMonth, insurance, prices, taxes} = require('../../config');
+const {customerTypes, middleMonth} = require('../../config');
+let settings = require('../../config/setting.json');
 
 class Services {
   constructor() {
@@ -51,32 +52,33 @@ class Services {
   }
 
   formatExportDetail(item, customer) {
+    let {insurance, prices, taxes} = settings;
     let {material} = item;
     let obj = {
       ...item,
       price: 0,
       extraPrice: customer.extraPrice,
-      tax: taxes.consumptionTax,
-      dieselTax: material === 'diesel' ? taxes.dieselTax : 0
+      tax: parseInt(taxes.consumptionTax),
+      dieselTax: material === 'diesel' ? parseInt(taxes.dieselTax) : 0
     };
-    if (customer.type === customerTypes.mediate) obj.insurance = insurance;
+    if (customer.type === customerTypes.mediate) obj.insurance = parseInt(insurance);
     if (material === 'adBlue') {
-      item.price = prices.adBlue
+      obj.price = parseInt(prices.adBlue)
     } else {
       if (material === 'dieselFreeTax') material = 'diesel';
       if (customer.type === customerTypes.mediate) {
         if (material === 'diesel') {
           let flag = `flag${customer.flag}`;
-          item.price = prices['mcCenter'][material][flag] || 0
+          obj.price = parseInt(prices['mcCenter'][material][flag]) || 0
         } else {
-          item.price = prices['mcCenter'][material] || 0
+          obj.price = parseInt(prices['mcCenter'][material]) || 0
         }
       } else {
         let day = moment().format('DD');
         if (Number(day) > middleMonth) {
-          item.price = prices['ske']['startMonth'][material] || 0
+          obj.price = parseInt(prices['ske']['endMonth'][material]) || 0
         } else {
-          item.price = prices['ske']['endMonth'][material] || 0
+          obj.price = parseInt(prices['ske']['startMonth'][material]) || 0
         }
       }
     }

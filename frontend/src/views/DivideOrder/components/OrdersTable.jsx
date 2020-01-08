@@ -106,7 +106,6 @@ class OrdersTable extends BaseView {
             } else {
               return I18n.t('Label.statusOrder.waiting');
             }
-
           },
           sortable: false,
           width: 130
@@ -130,7 +129,7 @@ class OrdersTable extends BaseView {
     let count = selectedIds.length || 0;
     const {onSelectOrder} = this.props;
     onSelectOrder(selectedIds);
-    return <Typography variant="h6">{count} item được chọn</Typography>
+    return <Typography variant="h6">{I18n.t('Label.orderSelected')}: {count} </Typography>
   }
 
   render() {
@@ -150,9 +149,8 @@ class OrdersTable extends BaseView {
           columns={this.table.columns}
           rows={orders}
           filterHiding={true}
-          // totalCount={data.total}
-          // pageSize={data.pageSize}
-          // defaultSort={this.table.defaultSort}
+          pagingHiding={true}
+          defaultSort={this.table.defaultSort}
           showCheckboxColumn={true}
           selectedActions={this.renderSelectedActions}
           height="auto"

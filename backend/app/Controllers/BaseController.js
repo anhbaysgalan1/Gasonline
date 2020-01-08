@@ -54,16 +54,7 @@ class BaseController {
           let condition = conditions[key];
           let modelName = Utils.getModelName(key);
           if (modelName === "Driver") { // thông tin lái xe lưu ở bảng users
-            modelName = "User";
-            if (condition['fullName']) {
-              condition = {
-                ...condition, $or: [
-                  {firstName: condition['fullName']},
-                  {lastName: condition['fullName']}
-                ]
-              }
-              delete condition['fullName']
-            }
+            modelName = "User"
           }
           // load relation models
           let ModelRelation = require(`../Models/${modelName}`);

@@ -40,7 +40,7 @@ class Index extends BaseView {
 
   renderFooterActions = (isEditing, classes) => {
     if (isEditing) return (
-      <div className={classes.positionLeftBottom}>
+      <div style = {{paddingTop: "20px"}}>
         <Button size='small' variant="outlined" color="primary" onClick={this.onClickBtn}>
           {I18n.t('Button.cancel')}
         </Button>

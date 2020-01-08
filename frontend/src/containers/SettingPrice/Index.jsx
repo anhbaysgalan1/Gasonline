@@ -1,10 +1,11 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import SettingPriceAction from 'actions/SettingPriceAction';
-import BaseContainer, {selector} from 'containers/BaseContainer';
-import View from 'views/SettingPrice/Index';
-import moment from 'moment';
+import React from 'react'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import SettingPriceAction from 'actions/SettingPriceAction'
+import BaseContainer, {selector} from 'containers/BaseContainer'
+import View from 'views/SettingPrice/Index'
+import { I18n } from 'helpers/I18n'
+import moment from 'moment'
 
 class Index extends BaseContainer {
   constructor(props) {
@@ -29,14 +30,16 @@ class Index extends BaseContainer {
   onSubmit(values) {
     let _values = {...values, month: moment(values.month).format("YYYY-MM")}
     this.props.dispatch(SettingPriceAction.edit(_values))
-      .then(data => {
-        if (!data.error) {
-          this.notify(data.message)
-          this.onChangeStatus(false)
-        } else {
-          this.notify(`Response: [${data.error.status}] ${data.error.message}`, 'error')
-        }
-      })
+    .then(data => {
+      if (!data.error) {
+        // this.notify(data.message)
+        this.notify(I18n.t('Message.success.update'))
+        this.goto("/setting-price")
+        this.onChangeStatus(false)
+      } else {
+        this.notify(`Response: [${data.error.status}] ${data.error.message}`, 'error')
+      }
+    })
   }
 
   render() {

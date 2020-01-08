@@ -4,18 +4,14 @@ import {withRouter} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PaperFade from 'components/Main/PaperFade';
 import BaseView from 'views/BaseView';
-import {dateFormatDefault} from 'config/constant';
+import {formatDateField} from 'config/constant';
 import {I18n} from 'helpers/I18n';
 import moment from 'moment';
 
-moment.defaultFormat = dateFormatDefault;
+moment.defaultFormat = formatDateField;
 //import GridTable from 'components/Table/GridTable'
 const GridTable = React.lazy(() => import('components/Table/GridTable'))
 const styles = theme => ({
-  gridTable: {
-    // maxHeight: 'calc(85vh)',
-    // height: 'calc(82vh)'
-  }
 });
 
 class Index extends BaseView {
@@ -29,12 +25,12 @@ class Index extends BaseView {
           title: I18n.t('Table.no'),
           filterable: false,
           sortable: false,
-          width: 90
+          width:90
         },
         {
           name: 'code',
           title: I18n.t('Table.area.code'),
-          width: 200
+          width: 150
         },
         {
           name: 'name',
@@ -45,11 +41,11 @@ class Index extends BaseView {
           name: 'insert.when',
           title: I18n.t('Table.createdAt'),
           type: "date",
-          filterFormat: "DD/MM/YY",
+          filterFormat: "YYYY/MM/DD",
           defaultFilterOperation: "daterange",
           width: 300,
           formatterComponent: (data) => {
-            return moment(data.value).format()
+            return moment(data.value).format(formatDateField)
           },
         },
         {

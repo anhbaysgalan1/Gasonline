@@ -1,10 +1,14 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import {AppBar, Divider, Drawer, Hidden, IconButton, Toolbar, Typography} from '@material-ui/core';
+import {
+  AppBar, Divider, Drawer, Hidden, 
+  IconButton, Toolbar, Typography, Button, Link
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import Sidebar from './Sidebar';
 import LogOut from './components/LogOut';
+import _ from 'lodash'
 
 const styles = theme => ({
   drawer: {
@@ -24,9 +28,11 @@ const styles = theme => ({
     },
   },
   toolbar: theme.mixins.toolbar,
-  drawerPaper: { // fix chiều rộng Sidebar
+  drawerPaper: { // Set chiều rộng Sidebar
     width: theme.drawerWidth,
-    // width: '240px'
+    // [theme.breakpoints.up('md')]: {
+      // width: '250px',
+    // }
   },
   paperAnchorLeft: {
     borderRight: "none",
@@ -35,6 +41,9 @@ const styles = theme => ({
   Typography: {
     paddingRight: `${theme.spacing.unit * 3}px`,
     marginLeft: `${theme.spacing.unit * 2}px`
+  },
+  button: {
+    marginRight: "20px"
   }
 })
 
@@ -55,7 +64,12 @@ class LeftSide extends React.Component {
     this.props.history.push('/login')
   }
 
+  setLang (name) {
+    localStorage.setItem('lang', name)
+  }
+
   render() {
+    let pathname = _.get(this.props, "history.location.pathname", '') 
     const {classes, theme, route} = this.props;
     const title = typeof route.title === "function" ? route.title() : "Default Page";
     document.title = title
@@ -64,8 +78,10 @@ class LeftSide extends React.Component {
       <AppBar position="fixed" className={classes.appBar} color="default">
         <Toolbar>
           <Hidden smUp>
-            <IconButton size='small' edge="start" onClick={this.handleDrawerToggle}
-                        className={classes.menuButton} color="inherit" aria-label="menu">
+            <IconButton 
+              size='small' edge="start" 
+              onClick={this.handleDrawerToggle}
+              className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon/>
             </IconButton>
             <Typography className={classes.Typography} color="inherit" noWrap className={classes.grow}>
@@ -77,7 +93,8 @@ class LeftSide extends React.Component {
               {title}
             </Typography>
           </Hidden>
-
+          <Link color='primary' href={`${pathname}`} className={classes.button} onClick={ () => this.setLang("vi")}  >VN</Link>
+          <Link color='primary' href={`${pathname}`} className={classes.button} onClick={ () => this.setLang("ja")} >JP</Link>
           <LogOut onLogout={this.onLogout}/>
         </Toolbar>
       </AppBar>
@@ -91,9 +108,7 @@ class LeftSide extends React.Component {
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={this.state.mobileOpen}
             onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
+            classes={{ paper: classes.drawerPaper }}
           >
             <div className={classes.toolbar}/>
             <Divider/>
@@ -102,10 +117,7 @@ class LeftSide extends React.Component {
         </Hidden>
         <Hidden xsDown implementation="css">
           <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-              paperAnchorLeft: classes.paperAnchorLeft
-            }}
+            classes={{ paper: classes.drawerPaper, paperAnchorLeft: classes.paperAnchorLeft }}
             variant="permanent"
             open
           >

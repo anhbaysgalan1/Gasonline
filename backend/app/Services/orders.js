@@ -22,13 +22,21 @@ class Services {
   }
 
   genDataStore(params) {
-    let {customer, area, deliveryDate, deliveryTime, deliveryAddress, orderDetails} = params;
+    let {customer, area, deliveryDate, deliveryTime, deliveryAddress, orderDetails, lat, lng} = params;
+    let mapAddress = {};
+    if (lat && lng) {
+      mapAddress = {
+        latitude: lat,
+        longitude: lng,
+      }
+    }
     return {
       customer,
       area,
       deliveryDate: moment(deliveryDate).format(formatDate),
       deliveryTime,
       deliveryAddress,
+      mapAddress,
       orderDetails
     }
   }

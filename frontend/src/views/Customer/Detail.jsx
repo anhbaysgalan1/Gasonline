@@ -110,7 +110,6 @@ class Detail extends BaseView {
                 label={I18n.t("Input.phone")}
                 name="phone"
                 value={customer.phone || ''}
-                formatData={this.formatData}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -136,7 +135,6 @@ class Detail extends BaseView {
                 disabled={true}
                 name="extraPrice"
                 value={customer.extraPrice || ''}
-                formatData={this.formatData}
                 className={classes.withoutLabel}
                 InputProps={{
                   startAdornment:

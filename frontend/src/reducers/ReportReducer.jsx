@@ -7,6 +7,9 @@ class ReportReducer extends BaseReducer {
       "Report.invoices": {
         path: "invoices"
       },
+      "Report.export_invoices": {
+        path: "export_invoices"
+      }
     }
   }
 

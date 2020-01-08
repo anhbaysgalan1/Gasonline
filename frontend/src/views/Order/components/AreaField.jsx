@@ -30,11 +30,8 @@ class AreaField extends BaseView {
   }
 
   onChangeArea(area) {
-    if (area !== null) {
-      this.setState({
-        id: area.value
-      })
-    }
+    if (area !== null)
+      this.setState({ id: area.value })
   }
 
   renderArea(areas, key) {
@@ -47,8 +44,9 @@ class AreaField extends BaseView {
   }
 
   render() {
-    const {classes, areas} = this.props;
-
+    const {classes, areas, order} = this.props
+    console.log("areas", areas)
+    console.log("areas", areas, "\norder", order)
     return (
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>

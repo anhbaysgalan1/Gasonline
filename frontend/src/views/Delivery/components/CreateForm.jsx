@@ -36,7 +36,6 @@ class CreateForm extends BaseView {
               margin='none'
               label={I18n.t(`Label.receivedVehicle`)}
               name="receivedVehicle"
-              formatData={this.formatData}
             />
           </Grid>
           : ''

@@ -91,7 +91,7 @@ class Index extends BaseView {
           name: 'deliveryAddress',
           title: I18n.t('Table.order.address'),
           sortable: false,
-          formatterComponent: (data) => <Typography noWrap={true}>{data.value}</Typography>
+          formatterComponent: (data) => <Typography>{data.value}</Typography>
         },
         {
           name: '_id',
@@ -320,6 +320,7 @@ class Index extends BaseView {
                 columns={this.table.columns}
                 rows={orders}
                 filterHiding={true}
+                pagingHiding={true}
                 defaultSort={this.table.defaultSort}
                 height="auto"
                 tableActions={this.renderToolbarActions}
